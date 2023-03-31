@@ -1,4 +1,7 @@
-void printMenu(){
+
+//Imprime la pantalla del menú principal del programa
+
+void mostrarMenu(){
 int i, menuWidth = 20;
     char menu[5][30] = {"1. Alumnos.", "2. CURSOS.", "3. MATRICULACIONES.", "4. GESTIÓN DE CURSOS.", "5. Salir."};
     
@@ -36,13 +39,19 @@ int i, menuWidth = 20;
     printf("+\n");
 }
 
+// Retorna un entero del 1 al 5 de la opción introducida por el usuario.
 int menu(){
     int opc;
     do{
         system("cls");
-        printMenu();
-        scanf("%d",&opc);
-    }while(opc > 1 || opc > 5);
-
+        mostrarMenu(); 
+        printf("\nIntroduzca una opción: ");
+        scanf("%d",&opc); // Obtenemos la opción introducida por el usuario.
+        rewind(stdin); //  Limpiar lo almacenado en el buffer.
+    }while(opc > 1 || opc > 5); // Validar que la opción sea entre 1 y 5
     return opc;
+}
+
+void mostrarFicheroAlumno(){
+
 }
