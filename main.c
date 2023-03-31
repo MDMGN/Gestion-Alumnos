@@ -4,9 +4,10 @@
 int main(){
     void (* function[])()={mostrarFicheroAlumno};
     int opc=menu();
-    //Mostramos el menú hasta que no le a la opción salir (5)
+    //Mostramos el menú hasta que el usuario elija la opción salir (5)
     while(opc!=5){
         (* function[opc-1])();
+        opc=menu();
     }
     printf("\nSaliendo...");
     _getch();
