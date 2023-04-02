@@ -48,7 +48,7 @@ int menu(){
         printf("\nIntroduzca una opción: ");
         scanf("%d",&opc); // Obtenemos la opción introducida por el usuario.
         rewind(stdin); //  Limpiar lo almacenado en el buffer.
-    }while(opc > 1 || opc > 5); // Validar que la opción sea entre 1 y 5
+    }while(opc < 1 || opc > 5); // Validar que la opción sea entre 1 y 5
     return opc;
 }
 
