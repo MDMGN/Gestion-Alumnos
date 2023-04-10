@@ -7,6 +7,7 @@
 //Constantes
 #define RUTA_A "data/alumnos.dat"
 #define RUTA_AS "data/asignaturas.dat"
+
 //Estructuras de datos
 typedef struct{
     int nExped;
@@ -19,7 +20,8 @@ typedef struct{
 
 //Cabezeras de funciones
 void gotoXY(int x,int y);
-void mostrarMenu();
-int menu();
-void pedirAlumnos();
+int menu(char *menu[30],int limit);
+void menuAlumnos();
+void mostrarMenu(char*menu[30],int limit);
+void alta();
 void introducirDatosAlumnos();

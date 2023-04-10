@@ -47,13 +47,12 @@ int i, menuWidth = 20;
 }
 
 // Retorna un entero del 1 al 5 de la opción introducida por el usuario.
-void menu(char* menu[30]){
-    int opc,limit;
-    limit=sizeof(menu)/sizeof(menu[0]);
+int menu(char* menu[30],int limit){
+    int opc;
     do{
         system("cls");
         mostrarMenu(menu,limit); 
-        printf("\nIntroduzca una opción: ");
+        printf("\nIntroduzca una opción: ",limit);
         scanf("%d",&opc); // Obtenemos la opción introducida por el usuario.
         rewind(stdin); //  Limpiar lo almacenado en el buffer.
     }while(opc < 1 || opc > limit); // Validar que la opción sea entre 1 y 5
@@ -61,12 +60,22 @@ void menu(char* menu[30]){
 }
 
 void introducirDatosAlumnos(){
+    FILE *pf;
+    //Creamos el fichero de bits de en alumnos.dat
+    pf=fopen(RUTA_A,"wb");
+    if(pf==NULL){
+        printf("\nError al abrir el fichero.");
+        fclose(pf);
+        _getch();
+        return;
+    }
     ALUMNO alumno;
+    //Introducimos los datos del alumno
         gotoXY(18,3);
         scanf("%d",&alumno.nExped);
         rewind(stdin);
         gotoXY(18,4);
-        fgets(alumno.nombre,20,stdin);
+        gets(alumno.nombre);
         gotoXY(18,5);
         gets(alumno.domicilio);
         gotoXY(18,6);
@@ -75,9 +84,28 @@ void introducirDatosAlumnos(){
         gets(alumno.municipio);
         gotoXY(18,8);
         gets(alumno.nif);
+    //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
+    fwrite(&alumno,sizeof(alumno),1,pf);
+    printf("\nFichero creado con exito!!");
+    fclose(pf);
+    _getch();
 }
 
-void pedirAlumnos(){
+
+void menuAlumnos(){
+    system("cls");
+    char* menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
+    void (*function[])()={alta};
+    int opc=menu(menu_alummnos,4);
+
+    while(opc!=4){
+        (* function[opc-1])();
+        opc=menu(menu_alummnos,4);
+    }
+    printf("\nVolviendo...");
+}
+
+void alta(){
     system("cls");
     // Mostrar el menú
     printf("+----------------------------------+\n");
