@@ -2,7 +2,7 @@
 #include "./includes/functions.c"
 
 int main(){
-    void (* function[])()={mostrarFicheroAlumno};
+    void (* function[])()={pedirAlumnos};
     int opc=menu();
     //Mostramos el menú hasta que el usuario elija la opción salir (5)
     while(opc!=5){

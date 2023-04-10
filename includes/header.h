@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <conio.h>
 #include <locale.h>
@@ -17,6 +18,8 @@ typedef struct{
 }ALUMNO;
 
 //Cabezeras de funciones
+void gotoXY(int x,int y);
 void mostrarMenu();
 int menu();
-void mostrarFicheroAlumno();
+void pedirAlumnos();
+void introducirDatosAlumnos();
