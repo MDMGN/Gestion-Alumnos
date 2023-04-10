@@ -10,12 +10,10 @@ void gotoXY(int x,int y){
 
 //Imprime la pantalla del menú principal del programa
 
-void mostrarMenu(){
-int i, menuWidth = 20;
-    char menu[5][30] = {"1. Alumnos.", "2. CURSOS.", "3. MATRICULACIONES.", "4. GESTIÓN DE CURSOS.", "5. Salir."};
-    
+void mostrarMenu(char*menu[30],int limit){
+int i, menuWidth = 20;    
     // Obtener la longitud máxima de cadena para ajustar el ancho del menú
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < limit; i++) {
         int len = strlen(menu[i]);
         if (len > menuWidth) {
             menuWidth = len;
@@ -37,7 +35,7 @@ int i, menuWidth = 20;
     }
     printf("+\n");
     
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < limit; i++) {
         printf("| %-*s  |\n", menuWidth, menu[i]);
     }
     
@@ -49,15 +47,16 @@ int i, menuWidth = 20;
 }
 
 // Retorna un entero del 1 al 5 de la opción introducida por el usuario.
-int menu(){
-    int opc;
+void menu(char* menu[30]){
+    int opc,limit;
+    limit=sizeof(menu)/sizeof(menu[0]);
     do{
         system("cls");
-        mostrarMenu(); 
+        mostrarMenu(menu,limit); 
         printf("\nIntroduzca una opción: ");
         scanf("%d",&opc); // Obtenemos la opción introducida por el usuario.
         rewind(stdin); //  Limpiar lo almacenado en el buffer.
-    }while(opc < 1 || opc > 5); // Validar que la opción sea entre 1 y 5
+    }while(opc < 1 || opc > limit); // Validar que la opción sea entre 1 y 5
     return opc;
 }
 
@@ -76,7 +75,6 @@ void introducirDatosAlumnos(){
         gets(alumno.municipio);
         gotoXY(18,8);
         gets(alumno.nif);
-        // limpiar la posición de la etiqueta del número de expediente
 }
 
 void pedirAlumnos(){
