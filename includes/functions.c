@@ -119,9 +119,4 @@ void alta(){
     printf("| N.I.F.        : %-17s|\n", "");
     printf("+----------------------------------+\n");
     introducirDatosAlumnos();
-    _getch();
-    // Mostrar la línea de mensajes
-    system("cls");
-    printf("Línea de mensajes\n");
-    _getch();
 }
