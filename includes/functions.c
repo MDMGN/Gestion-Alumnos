@@ -120,3 +120,17 @@ void alta(){
     printf("+----------------------------------+\n");
     introducirDatosAlumnos();
 }
+void getLastId(FILE *file){
+    int last_nExped = 0;
+    ALUMNO a;
+
+    fseek(file, 0, SEEK_SET);
+
+    while (fread(&a, sizeof(ALUMNO), 1, file) == 1) {
+        if (a.nExped > last_nExped) {
+            last_nExped = a.nExped;
+        }
+    }
+
+    return last_nExped;
+}

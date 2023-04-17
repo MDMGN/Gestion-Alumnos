@@ -25,3 +25,4 @@ void menuAlumnos();
 void mostrarMenu(char*menu[30],int limit);
 void alta();
 void introducirDatosAlumnos();
+void getLastId(FILE *file);
