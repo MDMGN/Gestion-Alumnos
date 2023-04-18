@@ -59,21 +59,8 @@ int menu(char* menu[30],int limit){
     return opc;
 }
 
-void introducirDatosAlumnos(){
-    FILE *pf;
-    //Creamos el fichero de bits de en alumnos.dat
-    pf=fopen(RUTA_A,"wb");
-    if(pf==NULL){
-        printf("\nError al abrir el fichero.");
-        fclose(pf);
-        _getch();
-        return;
-    }
-    ALUMNO alumno;
+void introducirDatosAlumnos(FILE *pf,ALUMNO alumno){
     //Introducimos los datos del alumno
-        gotoXY(18,3);
-        scanf("%d",&alumno.nExped);
-        rewind(stdin);
         gotoXY(18,4);
         gets(alumno.nombre);
         gotoXY(18,5);
@@ -84,11 +71,6 @@ void introducirDatosAlumnos(){
         gets(alumno.municipio);
         gotoXY(18,8);
         gets(alumno.nif);
-    //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
-    fwrite(&alumno,sizeof(alumno),1,pf);
-    printf("\nFichero creado con exito!!");
-    fclose(pf);
-    _getch();
 }
 
 
@@ -107,20 +89,37 @@ void menuAlumnos(){
 
 void alta(){
     system("cls");
+    ALUMNO alumno;
+    FILE *pf;
+    //Creamos el fichero de bits de en alumnos.dat
+    pf=fopen(RUTA_A,"ab+");
+    if(pf==NULL){
+        printf("\nError al abrir el fichero.");
+        fclose(pf);
+        _getch();
+        return;
+    }
+    alumno.nExped=getLastExpe(pf)+1;
     // Mostrar el menú
     printf("+----------------------------------+\n");
     printf("|         FICHERO DE ALUMNOS       |\n");
     printf("|----------------------------------|\n");
-    printf("| Nº Expediente : %-17s|\n", "");
+    printf("| Nº Expediente : %-17d|\n", alumno.nExped);
     printf("| Nombre        : %-17s|\n", "");
     printf("| Domicilio     : %-17s|\n", "");
     printf("| Cod. Postal   : %-17s|\n", "");
     printf("| Municipio     : %-17s|\n", "");
     printf("| N.I.F.        : %-17s|\n", "");
     printf("+----------------------------------+\n");
-    introducirDatosAlumnos();
+    introducirDatosAlumnos(pf,alumno);
+    //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
+    fseek(pf, 0, SEEK_SET);
+    fwrite(&alumno,sizeof(alumno),1,pf);
+    printf("\nFichero creado con exito!!");
+    fclose(pf);
+    _getch();
 }
-void getLastId(FILE *file){
+int getLastExpe(FILE *file){
     int last_nExped = 0;
     ALUMNO a;
 
@@ -131,6 +130,5 @@ void getLastId(FILE *file){
             last_nExped = a.nExped;
         }
     }
-
     return last_nExped;
 }

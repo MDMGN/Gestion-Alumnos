@@ -24,5 +24,5 @@ int menu(char *menu[30],int limit);
 void menuAlumnos();
 void mostrarMenu(char*menu[30],int limit);
 void alta();
-void introducirDatosAlumnos();
-void getLastId(FILE *file);
+void introducirDatosAlumnos(FILE *pf,ALUMNO alumno);
+int getLastExpe(FILE *file);
