@@ -76,7 +76,7 @@ void introducirDatosAlumnos(FILE *pf,ALUMNO alumno){
 
 void menuAlumnos(){
     system("cls");
-    char* menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
+    char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
     void (*function[])()={alta};
     int opc=menu(menu_alummnos,4);
 
@@ -89,8 +89,7 @@ void menuAlumnos(){
 
 void alta(){
     system("cls");
-    ALUMNO alumno;
-    FILE *pf;
+    ALUMNO alumno;FILE *pf;char resp;
     //Creamos el fichero de bits de en alumnos.dat
     pf=fopen(RUTA_A,"ab+");
     if(pf==NULL){
@@ -112,13 +111,21 @@ void alta(){
     printf("| N.I.F.        : %-17s|\n", "");
     printf("+----------------------------------+\n");
     introducirDatosAlumnos(pf,alumno);
-    //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
-    fseek(pf, 0, SEEK_SET);
-    fwrite(&alumno,sizeof(alumno),1,pf);
-    printf("\nFichero creado con exito!!");
+    //Pedimos conformidad para guardar el registro
+    printf("\nDesea guardar el registro? (s/?): ");
+    resp=tolower(_getche());
+    if(resp=='s'){
+        //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
+        fseek(pf, 0, SEEK_SET);
+        fwrite(&alumno,sizeof(alumno),1,pf);
+        printf("\nFichero creado con exito!!");
+    }else{
+        printf("\nVolviendo...");
+    }
     fclose(pf);
     _getch();
 }
+//Obtenemos el último número de expediente
 int getLastExpe(FILE *file){
     int last_nExped = 0;
     ALUMNO a;
