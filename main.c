@@ -1,5 +1,6 @@
 #include "./includes/header.h"
 #include "./includes/functions.c"
+#include "./includes/alumnos.c"
 
 int main(){
     void (* function[])()={menuAlumnos};

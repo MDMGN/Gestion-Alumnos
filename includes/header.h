@@ -8,7 +8,7 @@
 #define RUTA_A "data/alumnos.dat"
 #define RUTA_AS "data/asignaturas.dat"
 
-//Estructuras de datos
+//Estructuras
 typedef struct{
     int nExped;
     char nombre[20];
@@ -23,6 +23,8 @@ void gotoXY(int x,int y);
 int menu(char *menu[30],int limit);
 void menuAlumnos();
 void mostrarMenu(char*menu[30],int limit);
-void alta();
+void altaAlumnos();
 void introducirDatosAlumnos(FILE *pf,ALUMNO alumno);
 int getLastExpe(FILE *file);
+void modificarAlumno();
+int comprobarExp(int,int);
