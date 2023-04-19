@@ -1,5 +1,5 @@
 #include "./includes/header.h"
-#include "./includes/functions.c"
+#include "./includes/helpers.c"
 #include "./includes/alumnos.c"
 
 int main(){

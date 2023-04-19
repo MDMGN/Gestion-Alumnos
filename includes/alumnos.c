@@ -1,15 +1,16 @@
-void introducirDatosAlumnos(FILE *pf,ALUMNO alumno){
+void introducirDatosAlumnos(FILE *pf,ALUMNO *alumno){
     //Introducimos los datos del alumno
         gotoXY(18,4);
-        fgets(alumno.nombre,20,stdin);
+        fgets(alumno->nombre,20,stdin);
         gotoXY(18,5);
-        fgets(alumno.domicilio,20,stdin);
+        fgets(alumno->domicilio,20,stdin);
         gotoXY(18,6);
-        fgets(alumno.codPost,5,stdin);
+        fgets(alumno->codPost,5,stdin);
         gotoXY(18,7);
-        fgets(alumno.municipio,15,stdin);
+        rewind(stdin);
+        fgets(alumno->municipio,15,stdin);
         gotoXY(18,8);
-        fgets(alumno.nif,10,stdin);
+        fgets(alumno->nif,10,stdin);
 }
 
 
@@ -49,7 +50,7 @@ void altaAlumnos(){
     printf("| Municipio     : %-17s|\n", "");
     printf("| N.I.F.        : %-17s|\n", "");
     printf("+----------------------------------+\n");
-    introducirDatosAlumnos(pf,alumno);
+    introducirDatosAlumnos(pf,&alumno);
     //Pedimos conformidad para guardar el registro
     printf("\nDesea guardar el registro? (s/?): ");
     resp=tolower(_getche());
@@ -96,7 +97,6 @@ void modificarAlumno(){
     printf("\nNúmero de exp. : ");
     scanf("%d",&nExp);
     rewind(stdin);
-    printf("\n|%d|\n",comprobarExp(nExp,last_nexp));
     if(comprobarExp(nExp,last_nexp)){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
