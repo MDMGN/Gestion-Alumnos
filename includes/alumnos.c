@@ -1,25 +1,59 @@
-void introducirDatosAlumnos(FILE *pf,ALUMNO *alumno){
-    //Introducimos los datos del alumno
+//Introducimos los datos del alumno
+void introducirDatosAlumnos(ALUMNO *alumno){
         gotoXY(18,4);
-        fgets(alumno->nombre,20,stdin);
+        fgets(alumno->nombre,21,stdin);
         gotoXY(18,5);
-        fgets(alumno->domicilio,20,stdin);
+        fgets(alumno->domicilio,21,stdin);
         gotoXY(18,6);
         fgets(alumno->codPost,5,stdin);
-        gotoXY(18,7);
         rewind(stdin);
-        fgets(alumno->municipio,15,stdin);
+        gotoXY(18,7);
+        fgets(alumno->municipio,16,stdin);
         gotoXY(18,8);
-        fgets(alumno->nif,10,stdin);
+        fgets(alumno->nif,11,stdin);
 }
 
+//Modificamos los datos del alumno
+void editarAlumno(ALUMNO *alumno){
+    int resp,success=1;
+    printf("\n¿Qué dato deseas editar?: ");
+    scanf("%d",&resp);
+    rewind(stdin);
+    switch(resp){
+        case 1:
+            printf("\n Nombre: ");
+            fgets(alumno->nombre,21,stdin);
+            break;
+        case 2:
+            printf("\n Domicilio: ");
+            fgets(alumno->domicilio,21,stdin);
+            break;
+        case 3:
+            printf("\n Código postal: ");
+            fgets(alumno->codPost,5,stdin);
+            break;
+        case 4:
+            printf("\n Municipio: ");
+            fgets(alumno->municipio,16,stdin);
+            break;
+        case 5:
+            printf("\n N.I.F: ");
+            fgets(alumno->nif,11,stdin);
+            break;
+        default:
+            printf("\n Opción incorrecta...");
+            success=0;
+            break;
+    }
+    rewind(stdin);
+    if(success) printf("\n\n Modificación exitosa!\n");
+}
 
 void menuAlumnos(){
     system("cls");
     char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
     void (*function[])()={altaAlumnos,modificarAlumno};
     int opc=menu(menu_alummnos,4);
-
     while(opc!=4){
         (* function[opc-1])();
         opc=menu(menu_alummnos,4);
@@ -50,7 +84,7 @@ void altaAlumnos(){
     printf("| Municipio     : %-17s|\n", "");
     printf("| N.I.F.        : %-17s|\n", "");
     printf("+----------------------------------+\n");
-    introducirDatosAlumnos(pf,&alumno);
+    introducirDatosAlumnos(&alumno);
     //Pedimos conformidad para guardar el registro
     printf("\nDesea guardar el registro? (s/?): ");
     resp=tolower(_getche());
@@ -83,6 +117,7 @@ int getLastExpe(FILE *file){
 void modificarAlumno(){
     system("cls");
     ALUMNO alumno;FILE *pf;int last_nexp, nExp;
+    char resp;
     pf=fopen(RUTA_A,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
@@ -100,19 +135,25 @@ void modificarAlumno(){
     if(comprobarExp(nExp,last_nexp)){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
-        system("cls");
-        // Mostrar el menú
-        printf("+----------------------------------+\n");
-        printf("|         FICHERO DE ALUMNOS       |\n");
-        printf("|----------------------------------|\n");
-        printf("| Nº Expediente : %-17d|\n", alumno.nExped);
-        printf("| Nombre        : %-17s|\n", alumno.nombre);
-        printf("| Domicilio     : %-17s|\n", alumno.domicilio);
-        printf("| Cod. Postal   : %-17s|\n", alumno.codPost);
-        printf("| Municipio     : %-17s|\n", alumno.municipio);
-        printf("| N.I.F.        : %-17s|\n", alumno.nif);
-        printf("+----------------------------------+\n");
-        printf("\n\nModificación exitosa!");
+        do{
+            system("cls");
+            // Mostrar el menú
+            printf("+----------------------------------+\n");
+            printf("|         FICHERO DE ALUMNOS       |\n");
+            printf("|----------------------------------|\n");
+            printf("| Nº Expediente    : %-17d|\n", alumno.nExped);
+            printf("| Nombre        (1): %-17s|\n", alumno.nombre);
+            printf("| Domicilio     (2): %-17s|\n", alumno.domicilio);
+            printf("| Cod. Postal   (3): %-17s|\n", alumno.codPost);
+            printf("| Municipio     (4): %-17s|\n", alumno.municipio);
+            printf("| N.I.F.        (5): %-17s|\n", alumno.nif);
+            printf("+----------------------------------+\n");
+            editarAlumno(&alumno);
+            printf("\nDeseas seguir? (s/?): ");
+            resp=tolower(_getche());
+        }while (resp=='s');
+        fseek(pf,(alumno.nExped-1)*sizeof(alumno),SEEK_SET);
+        fwrite(&alumno,sizeof(alumno),1,pf);
     }else{
         printf("\nError: Nº de expediente no valido.");
     }

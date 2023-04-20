@@ -15,7 +15,7 @@ typedef struct{
     char domicilio[20];
     char codPost[5];
     char municipio[15];
-    char nif[15];
+    char nif[11];
 }ALUMNO;
 
 //Cabezeras de funciones
@@ -24,7 +24,8 @@ int menu(char *menu[30],int limit);
 void menuAlumnos();
 void mostrarMenu(char*menu[30],int limit);
 void altaAlumnos();
-void introducirDatosAlumnos(FILE *pf,ALUMNO *alumno);
+void introducirDatosAlumnos(ALUMNO *alumno);
 int getLastExpe(FILE *file);
 void modificarAlumno();
 int comprobarExp(int,int);
+void editarAlumno(ALUMNO *alumno);
