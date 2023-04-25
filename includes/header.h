@@ -19,9 +19,29 @@ typedef struct{
     char nif[11];
 }ALUMNO;
 
+typedef struct{
+    int dia;
+    int mes;
+    int anio;
+}FECHA;
+
+typedef struct{
+    int nCurso;
+    char description[20];
+    FECHA fInicio;
+    FECHA fFin;
+    int iniciado;
+    int finalizado;
+    int plazasMax;
+}CURSO;
+
 //Cabezeras de funciones
+
+/* Funciones auxiliares */
 void gotoXY(int x,int y);
 int menu(char *menu[30],int limit);
+
+/* Funciones para el submenu de alumno */
 void menuAlumnos();
 void mostrarMenu(char*menu[30],int limit);
 void altaAlumnos();
@@ -32,3 +52,6 @@ void mostrarAlumno(ALUMNO alumno);
 void modificarAlumno();
 int comprobarExp(int,int);
 void editarAlumno(ALUMNO *alumno);
+
+/* Funciones para el submenu de cursos */
+void menuCursos();
