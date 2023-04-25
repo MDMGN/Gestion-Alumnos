@@ -1,16 +1,55 @@
 //Introducimos los datos del alumno
 void introducirDatosAlumnos(ALUMNO *alumno){
         gotoXY(18,4);
-        fgets(alumno->nombre,21,stdin);
+        fgets(alumno->nombre,20,stdin);
+        fflush(stdin);
+        strtok(alumno->nombre,"\n");
         gotoXY(18,5);
-        fgets(alumno->domicilio,21,stdin);
+        fgets(alumno->domicilio,20,stdin);
+        fflush(stdin);
+        strtok(alumno->domicilio,"\n");
         gotoXY(18,6);
         fgets(alumno->codPost,5,stdin);
-        rewind(stdin);
+        fflush(stdin);
+        strtok(alumno->codPost,"\n");
         gotoXY(18,7);
-        fgets(alumno->municipio,16,stdin);
+        fgets(alumno->municipio,15,stdin);
+        fflush(stdin);
+        strtok(alumno->municipio,"\n");
         gotoXY(18,8);
-        fgets(alumno->nif,11,stdin);
+        fgets(alumno->nif,10,stdin);
+        fflush(stdin);
+        strtok(alumno->nif,"\n");
+}
+
+//Consultamos la información del alumno
+void consultaAlumno(){
+    system("cls");
+    ALUMNO alumno;FILE *pf;int last_nexp, nExp;
+    pf=fopen(RUTA_A,"rb+");
+    //Comprobamos si el fichero existe
+    if(pf==NULL){
+        printf("\nError: El fichero no existe.");
+        fclose(pf);
+        printf("\nVolviendo...");
+        _getch();
+        return;
+    }
+    last_nexp=getLastExpe(pf);
+    //Pedir nº de expediente.
+    printf("\nNúmero de exp. : ");
+    scanf("%d",&nExp);
+    rewind(stdin);
+    if(comprobarExp(nExp,last_nexp)){
+        fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
+	    fread(&alumno, sizeof(alumno), 1, pf);
+        mostrarAlumno(alumno);
+        printf("\n\nFichero cargado correctamente.");
+    }else{
+        printf("\n\nNº de expediente incorrecto.");
+    }
+    fclose(pf);
+    _getch();
 }
 
 //Modificamos los datos del alumno
@@ -52,7 +91,7 @@ void editarAlumno(ALUMNO *alumno){
 void menuAlumnos(){
     system("cls");
     char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
-    void (*function[])()={altaAlumnos,modificarAlumno};
+    void (*function[])()={altaAlumnos,modificarAlumno,consultaAlumno};
     int opc=menu(menu_alummnos,4);
     while(opc!=4){
         (* function[opc-1])();

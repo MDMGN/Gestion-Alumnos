@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <locale.h>
+#include <string.h>
 #include <windows.h>
 
 //Constantes
@@ -24,6 +25,7 @@ int menu(char *menu[30],int limit);
 void menuAlumnos();
 void mostrarMenu(char*menu[30],int limit);
 void altaAlumnos();
+void consultaAlumno();
 void introducirDatosAlumnos(ALUMNO *alumno);
 int getLastExpe(FILE *file);
 void mostrarAlumno(ALUMNO alumno);
