@@ -131,18 +131,7 @@ void modificarAlumno(){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
         do{
-            system("cls");
-            // Mostrar el menú
-            printf("+----------------------------------+\n");
-            printf("|         FICHERO DE ALUMNOS       |\n");
-            printf("|----------------------------------|\n");
-            printf("| Nº Expediente    : %-17d|\n", alumno.nExped);
-            printf("| Nombre        (1): %-17s|\n", alumno.nombre);
-            printf("| Domicilio     (2): %-17s|\n", alumno.domicilio);
-            printf("| Cod. Postal   (3): %-17s|\n", alumno.codPost);
-            printf("| Municipio     (4): %-17s|\n", alumno.municipio);
-            printf("| N.I.F.        (5): %-17s|\n", alumno.nif);
-            printf("+----------------------------------+\n");
+            mostrarAlumno(alumno);
             editarAlumno(&alumno);
             printf("\nDeseas seguir? (s/?): ");
             resp=tolower(_getche());
@@ -160,4 +149,19 @@ void modificarAlumno(){
 //Comprobar si el nº expediente está dentro de los límites.
 int comprobarExp(int nExp,int lastNExp){
    return !(nExp < 0 || nExp > lastNExp);
+}
+
+void mostrarAlumno(ALUMNO alumno){
+    system("cls");
+    // Mostrar el menú
+    printf("+----------------------------------+\n");
+    printf("|         FICHERO DE ALUMNOS       |\n");
+    printf("|----------------------------------|\n");
+    printf("| Nº Expediente    : %-17d|\n", alumno.nExped);
+    printf("| Nombre        (1): %-17s|\n", alumno.nombre);
+    printf("| Domicilio     (2): %-17s|\n", alumno.domicilio);
+    printf("| Cod. Postal   (3): %-17s|\n", alumno.codPost);
+    printf("| Municipio     (4): %-17s|\n", alumno.municipio);
+    printf("| N.I.F.        (5): %-17s|\n", alumno.nif);
+    printf("+----------------------------------+\n");
 }

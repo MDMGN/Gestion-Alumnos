@@ -26,6 +26,7 @@ void mostrarMenu(char*menu[30],int limit);
 void altaAlumnos();
 void introducirDatosAlumnos(ALUMNO *alumno);
 int getLastExpe(FILE *file);
+void mostrarAlumno(ALUMNO alumno);
 void modificarAlumno();
 int comprobarExp(int,int);
 void editarAlumno(ALUMNO *alumno);
