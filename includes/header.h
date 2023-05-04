@@ -8,6 +8,7 @@
 //Constantes
 #define RUTA_A "data/alumnos.dat"
 #define RUTA_AS "data/asignaturas.dat"
+#define RUTA_C "data/cursos.dat"
 
 //Estructuras
 typedef struct{
@@ -38,20 +39,24 @@ typedef struct{
 //Cabezeras de funciones
 
 /* Funciones auxiliares */
-void gotoXY(int x,int y);
-int menu(char *menu[30],int limit);
+void gotoXY(int,int);
+int menu(char *,int);
+int totalRegistro(FILE *,long);
 
 /* Funciones para el submenu de alumno */
-void menuAlumnos();
-void mostrarMenu(char*menu[30],int limit);
-void altaAlumnos();
+void menuAlumno();
+void mostrarMenu(char*,int);
+void altaAlumno();
 void consultaAlumno();
-void introducirDatosAlumnos(ALUMNO *alumno);
-int getLastExpe(FILE *file);
-void mostrarAlumno(ALUMNO alumno);
+void introducirDatosAlumno(ALUMNO *);
+void mostrarAlumno(ALUMNO);
 void modificarAlumno();
 int comprobarExp(int,int);
-void editarAlumno(ALUMNO *alumno);
+void editarAlumno(ALUMNO *);
 
 /* Funciones para el submenu de cursos */
-void menuCursos();
+void menuCurso();
+void altaCurso();
+void introducirDatosCurso(CURSO*);
+/* void modificarCurso();
+void consultaCurso(); */

@@ -1,5 +1,5 @@
 //Introducimos los datos del alumno
-void introducirDatosAlumnos(ALUMNO *alumno){
+void introducirDatosAlumno(ALUMNO *alumno){
         gotoXY(18,4);
         fgets(alumno->nombre,20,stdin);
         fflush(stdin);
@@ -35,7 +35,7 @@ void consultaAlumno(){
         _getch();
         return;
     }
-    last_nexp=getLastExpe(pf);
+    last_nexp=totalRegistro(pf,sizeof(ALUMNO));
     //Pedir nº de expediente.
     printf("\nNúmero de exp. : ");
     scanf("%d",&nExp);
@@ -88,10 +88,10 @@ void editarAlumno(ALUMNO *alumno){
     if(success) printf("\n\n Modificación exitosa!\n");
 }
 
-void menuAlumnos(){
+void menuAlumno(){
     system("cls");
     char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
-    void (*function[])()={altaAlumnos,modificarAlumno,consultaAlumno};
+    void (*function[])()={altaAlumno,modificarAlumno,consultaAlumno};
     int opc=menu(menu_alummnos,4);
     while(opc!=4){
         (* function[opc-1])();
@@ -100,7 +100,7 @@ void menuAlumnos(){
     printf("\nVolviendo...");
 }
 
-void altaAlumnos(){
+void altaAlumno(){
     system("cls");
     ALUMNO alumno;FILE *pf;char resp;
     //Abrimos o creamos el fichero de bits de en alumnos.dat
@@ -111,7 +111,7 @@ void altaAlumnos(){
         _getch();
         return;
     }
-    alumno.nExped=getLastExpe(pf)+1;
+    alumno.nExped=totalRegistro(pf,sizeof(ALUMNO))+1;
     // Mostrar el menú
     printf("+----------------------------------+\n");
     printf("|         FICHERO DE ALUMNOS       |\n");
@@ -123,7 +123,7 @@ void altaAlumnos(){
     printf("| Municipio     : %-17s|\n", "");
     printf("| N.I.F.        : %-17s|\n", "");
     printf("+----------------------------------+\n");
-    introducirDatosAlumnos(&alumno);
+    introducirDatosAlumno(&alumno);
     //Pedimos conformidad para guardar el registro
     printf("\nDesea guardar el registro? (s/?): ");
     resp=tolower(_getche());
@@ -137,15 +137,6 @@ void altaAlumnos(){
     }
     fclose(pf);
     _getch();
-}
-//Obtenemos el último número de expediente
-int getLastExpe(FILE *pf){
-    int  tam;ALUMNO al;
-    fseek(pf, 0, SEEK_END);    
-    tam=ftell(pf);                      
-    fseek(pf, 0, SEEK_SET);    
-    tam -= ftell(pf);
-    return (tam/sizeof(al));            
 }
 //Modificar los datos del alumno
 void modificarAlumno(){
@@ -161,7 +152,7 @@ void modificarAlumno(){
         _getch();
         return;
     }
-    last_nexp=getLastExpe(pf);
+    last_nexp=totalRegistro(pf,sizeof(ALUMNO));
     //Pedir nº de expediente.
     printf("\nNúmero de exp. : ");
     scanf("%d",&nExp);

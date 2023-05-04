@@ -4,7 +4,7 @@
 #include "./includes/cursos.c"
 
 int main(){
-    void (* function[])()={menuAlumnos,menuCursos};
+    void (* function[])()={menuAlumno,menuCurso};
     char *menuPrincipal[30]={"1. ALUMNOS.","2. CURSOS.","3. MATRICULACIONES.","4. GESTIÓN DE CURSOS.","5. SALIR."};
     int opc=menu(menuPrincipal,5);
     //Mostramos el menú hasta que el usuario elija la opción salir (5)

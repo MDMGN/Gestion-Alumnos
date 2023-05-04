@@ -58,3 +58,14 @@ int menu(char* menu[30],int limit){
     }while(opc < 1 || opc > limit); // Validar que la opción sea entre 1 y 5
     return opc;
 }
+
+//Obtenemos el último número de expediente
+int totalRegistro(FILE* pf,long sizeReg){
+    int  tam;
+    fseek(pf, 0, SEEK_END);    
+    tam=ftell(pf);                      
+    fseek(pf, 0, SEEK_SET);   
+    tam -= ftell(pf);
+    return (tam/sizeReg);
+}
+
