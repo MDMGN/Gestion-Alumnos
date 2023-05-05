@@ -23,45 +23,49 @@ void altaCurso(){
     }
     curso.nCurso=totalRegistro(pf,sizeof(CURSO))+1;
     // Mostrar el menú
-    printf("+----------------------------------+\n");
-    printf("|         FICHERO DE ALUMNOS       |\n");
-    printf("|----------------------------------|\n");
-    printf("| Nº Expediente : %-17d|\n", curso.nCurso);
-    printf("| Nombre        : %-17s|\n", "");
-    printf("| Domicilio     : %-17s|\n", "");
-    printf("| Cod. Postal   : %-17s|\n", "");
-    printf("| Municipio     : %-17s|\n", "");
-    printf("| N.I.F.        : %-17s|\n", "");
-    printf("+----------------------------------+\n");
-  /*   introducirDatosAlumnos(&curso);
+    printf("+----------------------------------------------------+\n");
+    printf("|                FICHERO DE CURSO                    |\n");
+    printf("|----------------------------------------------------|\n");
+    printf("| Nº Curso      : %-35d|\n", curso.nCurso);
+    printf("| Descripción   : %-15s Plazas max: %-7s|\n", "","");
+    printf("| Desde         : %-15s Hasta     : %-7s|\n", "","");
+    printf("| Iniciado      : %-15s Finalizado: %-7s|\n", "","");
+    printf("+----------------------------------------------------+\n");
+    introducirDatosCurso(&curso);
     //Pedimos conformidad para guardar el registro
     printf("\nDesea guardar el registro? (s/?): ");
     resp=tolower(_getche());
     if(resp=='s'){
-        //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
+        //Guardamos la estructura de CURSO con los datos introducidos
         fseek(pf, 0, SEEK_SET);
         fwrite(&curso,sizeof(curso),1,pf);
         printf("\nRegistro guardado con exito!!");
     }else{
         printf("\nVolviendo...");
-    } */
+    }
     fclose(pf);
     _getch();
 }
 
-//Introducimos los datos del alumno
+//Introducimos los datos del curso
 void introducirDatosCurso(CURSO *curso){
         gotoXY(18,4);
         fgets(curso->description,20,stdin);
         fflush(stdin);
         strtok(curso->description,"\n");
+        gotoXY(46,4);
+        scanf("%d",&curso->plazasMax);
+        fflush(stdin);
         gotoXY(18,5);
         scanf("%s/%s/%s",curso->fInicio.dia,curso->fInicio.mes,curso->fInicio.anio);
         fflush(stdin);
-        gotoXY(18,6);
-        scanf("%s/%s/%s",curso->fInicio.dia,curso->fInicio.mes,curso->fInicio.anio);
+        gotoXY(46,5);
+        scanf("%s/%s/%s",curso->fFin.dia,curso->fFin.mes,curso->fFin.anio);
         fflush(stdin);
-        gotoXY(30,6);
+        gotoXY(18,6);
         scanf("%d",curso->iniciado);
+        fflush(stdin);
+        gotoXY(46,6);
+        scanf("%d",curso->finalizado);
         fflush(stdin);
 }
