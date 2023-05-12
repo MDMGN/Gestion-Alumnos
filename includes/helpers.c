@@ -1,4 +1,3 @@
-
 //Establece la posición del cursor x, y en la consola.
 void gotoXY(int x,int y){
     COORD pos;
@@ -67,5 +66,15 @@ int totalRegistro(FILE* pf,long sizeReg){
     fseek(pf, 0, SEEK_SET);   
     tam -= ftell(pf);
     return (tam/sizeReg);
+}
+
+void insertarFecha(char date[],FECHA* fecha){
+    char *token;
+    token=strtok(date,"/");
+    sscanf(token,"%i",fecha->dia);
+    token=strtok(NULL,"/");
+    sscanf(token,"%i",fecha->mes);
+    token=strtok(NULL,"/");
+    sscanf(token,"%i",fecha->anio);
 }
 

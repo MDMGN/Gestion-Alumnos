@@ -40,9 +40,9 @@ typedef struct{
 
 /* Funciones auxiliares */
 void gotoXY(int,int);
-int menu(char *,int);
+int menu(char **,int);
 int totalRegistro(FILE *,long);
-
+void insertarFecha(char date[],FECHA* fecha);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void mostrarMenu(char*,int);
@@ -58,5 +58,6 @@ void editarAlumno(ALUMNO *);
 void menuCurso();
 void altaCurso();
 void introducirDatosCurso(CURSO*);
-/* void modificarCurso();
-void consultaCurso(); */
+void modificarCurso();
+void consultaCurso();
+void mostrarCurso(CURSO curso);

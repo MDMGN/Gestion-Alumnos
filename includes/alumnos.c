@@ -138,6 +138,7 @@ void altaAlumno(){
     fclose(pf);
     _getch();
 }
+
 //Modificar los datos del alumno
 void modificarAlumno(){
     system("cls");
