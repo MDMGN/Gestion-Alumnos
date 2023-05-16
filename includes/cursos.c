@@ -90,7 +90,7 @@ void consultaCurso(){
     printf("\nNúmero de curso: ");
     scanf("%d",&nCurs);
     rewind(stdin);
-    if(comprobarExp(nCurs,last_ncurs)){
+    if(comprobar(nCurs,last_ncurs)){
         fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
 	    fread(&curso, sizeof(curso), 1, pf);
         mostrarCurso(curso);
@@ -103,7 +103,39 @@ void consultaCurso(){
 }
 
 void modificarCurso(){
-    printf("modificarCurso");
+   system("cls");
+    CURSO curso;FILE *pf;int last_ncurs, nCurs;
+    char resp;
+    pf=fopen(RUTA_C,"rb+");
+    //Comprobamos si el fichero existe
+    if(pf==NULL){
+        printf("\nError: El fichero no existe.");
+        fclose(pf);
+        printf("\nVolviendo...");
+        _getch();
+        return;
+    }
+    last_ncurs=totalRegistro(pf,sizeof(CURSO));
+    //Pedir nº de expediente.
+    printf("\nNúmero de curso: ");
+    scanf("%d",&nCurs);
+    rewind(stdin);
+    if(comprobar(nCurs,last_ncurs)){
+        fseek(pf, (nCurs-1) * sizeof(CURSO), SEEK_SET);
+	    fread(&curso, sizeof(curso), 1, pf);
+        do{
+            mostrarCurso(curso);
+            editarCurso(&curso);
+            printf("\nDeseas seguir? (s/?): ");
+            resp=tolower(_getche());
+        }while (resp=='s');
+        fseek(pf,(curso.nCurso-1)*sizeof(CURSO),SEEK_SET);
+        fwrite(&curso,sizeof(CURSO),1,pf);
+    }else{
+        printf("\nError: Nº de curso no valido.");
+    }
+    fclose(pf);
+    printf("\nVolviendo...");
     _getch();
 }
 

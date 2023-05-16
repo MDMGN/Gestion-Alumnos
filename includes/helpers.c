@@ -78,3 +78,8 @@ void insertarFecha(char date[],FECHA* fecha){
     sscanf(token,"%d",&fecha->anio);
 }
 
+//Comprobar si el nº expediente/curso/profesor está dentro de los límites.
+int comprobar(int n,int lastN){
+   return !(n < 0 || n > lastN);
+}
+
