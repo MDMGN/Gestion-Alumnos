@@ -139,6 +139,45 @@ void modificarCurso(){
     _getch();
 }
 
+//Modificamos los datos del curso
+void editarAlumno(CURSO *curso){
+    int resp,success=1;
+    char date[11];
+    printf("\n¿Qué dato deseas editar?: ");
+    scanf("%d",&resp);
+    rewind(stdin);
+    switch(resp){
+        case 1:
+            printf("\n Descripción: ");
+            fgets(curso->description,21,stdin);
+            strtok(curso->description,'\n');
+            break;
+        case 2:
+            printf("\n Plazas max: ");
+            scanf("%d",&curso->plazasMax);
+            break;
+        case 3:
+            printf("\n Desde: ");
+            fgets(date,11,stdin);
+            insertarFecha(date,curso->fInicio);
+            break;
+        case 4:
+            printf("\n Municipio: ");
+            fgets(alumno->municipio,16,stdin);
+            break;
+        case 5:
+            printf("\n N.I.F: ");
+            fgets(alumno->nif,11,stdin);
+            break;
+        default:
+            printf("\n Opción incorrecta...");
+            success=0;
+            break;
+    }
+    rewind(stdin);
+    if(success) printf("\n\n Modificación exitosa!\n");
+}
+
 void mostrarCurso(CURSO curso){
     system("cls");
     char *resp[]={"Sí","No"};
