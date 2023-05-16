@@ -177,40 +177,7 @@ void modificarAlumno(){
     _getch();
 }
 
-void editarCurso(CURSO *curso){
-    int resp,success=1;
-    printf("\n¿Qué dato deseas editar?: ");
-    scanf("%d",&resp);
-    rewind(stdin);
-    switch(resp){
-        case 1:
-            printf("\n Descripción: ");
-            fgets(curso->description,21,stdin);
-            break;
-        case 2:
-            printf("\n Domicilio: ");
-            scanf("%d",&curso->plazasMax);
-            break;
-        case 3:
-            printf("\n Código postal: ");
-            fgets(curso->codPost,5,stdin);
-            break;
-        case 4:
-            printf("\n Municipio: ");
-            fgets(curso->municipio,16,stdin);
-            break;
-        case 5:
-            printf("\n N.I.F: ");
-            fgets(curso->nif,11,stdin);
-            break;
-        default:
-            printf("\n Opción incorrecta...");
-            success=0;
-            break;
-    }
-    rewind(stdin);
-    if(success) printf("\n\n Modificación exitosa!\n");
-}
+//Mostrar datos del alummno
 
 void mostrarAlumno(ALUMNO alumno){
     system("cls");
