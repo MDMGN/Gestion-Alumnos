@@ -71,10 +71,10 @@ int totalRegistro(FILE* pf,long sizeReg){
 void insertarFecha(char date[],FECHA* fecha){
     char *token;
     token=strtok(date,"/");
-    sscanf(token,"%i",fecha->dia);
+    sscanf(token,"%d",&fecha->dia);
     token=strtok(NULL,"/");
-    sscanf(token,"%i",fecha->mes);
+    sscanf(token,"%d",&fecha->mes);
     token=strtok(NULL,"/");
-    sscanf(token,"%i",fecha->anio);
+    sscanf(token,"%d",&fecha->anio);
 }
 

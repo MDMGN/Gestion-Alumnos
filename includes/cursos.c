@@ -23,14 +23,14 @@ void altaCurso(){
     }
     curso.nCurso=totalRegistro(pf,sizeof(CURSO))+1;
     // Mostrar el menú
-    printf("+------------------------------------------------------+\n");
-    printf("|                FICHERO DE CURSO                      |\n");
-    printf("|------------------------------------------------------|\n");
-    printf("| Nº Curso      : %-37d|\n", curso.nCurso);
-    printf("| Descripción   : %-15s Plazas max: %-9s|\n", "","");
-    printf("| Desde         : %-15s Hasta     : %-9s|\n", "","");
-    printf("| Iniciado      : %-15s Finalizado: %-9s|\n", "","");
-    printf("+------------------------------------------------------+\n");
+    printf("+--------------------------------------------------------+\n");
+    printf("|                FICHERO DE CURSO                        |\n");
+    printf("|--------------------------------------------------------|\n");
+    printf("| Nº Curso      : %-39d|\n", curso.nCurso);
+    printf("| Descripción   : %-15s Plazas max: %-11s|\n", "","");
+    printf("| Desde         : %-15s Hasta     : %-11s|\n", "","");
+    printf("| Iniciado      : %-15s Finalizado: %-11s|\n", "","");
+    printf("+--------------------------------------------------------+\n");
     introducirDatosCurso(&curso);
     //Pedimos conformidad para guardar el registro
     printf("\nDesea guardar el registro? (s/?): ");
@@ -55,7 +55,7 @@ void introducirDatosCurso(CURSO *curso){
         fflush(stdin);
         strtok(curso->description,"\n");
         gotoXY(46,4);
-        scanf("%d",curso->plazasMax);
+        scanf("%d",&curso->plazasMax);
         fflush(stdin);
         gotoXY(18,5);
         fgets(date,11,stdin);
@@ -66,17 +66,17 @@ void introducirDatosCurso(CURSO *curso){
         fflush(stdin);
         insertarFecha(date,&curso->fFin);
         gotoXY(18,6);
-        scanf("%d",curso->iniciado);
+        scanf("%d",&curso->iniciado);
         fflush(stdin);
         gotoXY(46,6);
-        scanf("%d",curso->finalizado);
+        scanf("%d",&curso->finalizado);
         fflush(stdin);
 }
 
 void consultaCurso(){
     system("cls");
     CURSO curso;FILE *pf;int last_ncurs, nCurs;
-    pf=fopen(RUTA_A,"rb");
+    pf=fopen(RUTA_C,"rb");
     //Comprobamos si el fichero existe
     if(pf==NULL){
         printf("\nError: No se encuentra la carpeta data.");
@@ -91,7 +91,8 @@ void consultaCurso(){
     scanf("%d",&nCurs);
     rewind(stdin);
     if(comprobarExp(nCurs,last_ncurs)){
-	    fread(&curso, sizeof(curso), nCurs, pf);
+        fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
+	    fread(&curso, sizeof(curso), 1, pf);
         mostrarCurso(curso);
         printf("\n\nFichero cargado correctamente.");
     }else{
@@ -110,12 +111,12 @@ void mostrarCurso(CURSO curso){
     system("cls");
     char *resp[]={"Sí","No"};
     // Mostrar los datos de curso
-    printf("+---------------------------------------------------------+\n");
-    printf("|                FICHERO DE CURSO                         |\n");
-    printf("|---------------------------------------------------------|\n");
-    printf("| Nº Curso      : %d                                      |\n", curso.nCurso);
-    printf("| Descripción   : %s                   Plazas max: %d     |\n", curso.description,curso.plazasMax);
-    printf("| Desde         : %d/%d/%d             Hasta     :%d/%d/%d|\n", curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio);
-    printf("| Iniciado      : %s                   Finalizado: %s     |\n", resp[0],resp[1]);
-    printf("+---------------------------------------------------------+\n");
+    printf("+-------------------------------------------------------------+\n");
+    printf("|                       FICHERO DE CURSO                      |\n");
+    printf("|-------------------------------------------------------------|\n");
+    printf("| Nº Curso      : %d                                          |\n", curso.nCurso);
+    printf("| Descripción   : %s                   Plazas max: %d         |\n", curso.description,curso.plazasMax);
+    printf("| Desde         : %d/%d/%d             Hasta     : %d/%d/%d   |\n", curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio);
+    printf("| Iniciado      : %s                   Finalizado: %s         |\n", resp[0],resp[1]);
+    printf("+-------------------------------------------------------------+\n");
 }
