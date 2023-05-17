@@ -140,7 +140,7 @@ void modificarCurso(){
 }
 
 //Modificamos los datos del curso
-void editarAlumno(CURSO *curso){
+void editarCurso(CURSO *curso){
     int resp,success=1;
     char date[11];
     printf("\n¿Qué dato deseas editar?: ");
@@ -150,7 +150,7 @@ void editarAlumno(CURSO *curso){
         case 1:
             printf("\n Descripción: ");
             fgets(curso->description,21,stdin);
-            strtok(curso->description,'\n');
+            strtok(curso->description,"\n");
             break;
         case 2:
             printf("\n Plazas max: ");
@@ -159,35 +159,40 @@ void editarAlumno(CURSO *curso){
         case 3:
             printf("\n Desde: ");
             fgets(date,11,stdin);
-            insertarFecha(date,curso->fInicio);
+            insertarFecha(date,&curso->fInicio);
             break;
         case 4:
-            printf("\n Municipio: ");
-            fgets(alumno->municipio,16,stdin);
+            printf("\n Hasta: ");
+            fgets(date,11,stdin);
+            insertarFecha(date,&curso->fFin);
             break;
         case 5:
-            printf("\n N.I.F: ");
-            fgets(alumno->nif,11,stdin);
+            printf("\n Iniciado: ");
+            scanf("%d",&curso->iniciado);
+        case 6:
+            printf("\n Fin: ");
+            scanf("%d",&curso->iniciado);
             break;
         default:
             printf("\n Opción incorrecta...");
             success=0;
             break;
     }
-    rewind(stdin);
+    fflush(stdin);
     if(success) printf("\n\n Modificación exitosa!\n");
 }
 
 void mostrarCurso(CURSO curso){
     system("cls");
-    char *resp[]={"Sí","No"};
+    const char *iniciado= (curso.iniciado) ? "Sí" :  "No";
+    const char *finalizado= (curso.finalizado) ? "Sí" :  "No";
     // Mostrar los datos de curso
-    printf("+-------------------------------------------------------------+\n");
-    printf("|                       FICHERO DE CURSO                      |\n");
-    printf("|-------------------------------------------------------------|\n");
-    printf("| Nº Curso      : %d                                          |\n", curso.nCurso);
-    printf("| Descripción   : %s                   Plazas max: %d         |\n", curso.description,curso.plazasMax);
-    printf("| Desde         : %d/%d/%d             Hasta     : %d/%d/%d   |\n", curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio);
-    printf("| Iniciado      : %s                   Finalizado: %s         |\n", resp[0],resp[1]);
-    printf("+-------------------------------------------------------------+\n");
+    printf("+------------------------------------------------------------------+\n");
+    printf("|                           FICHERO DE CURSO                       |\n");
+    printf("|------------------------------------------------------------------|\n");
+    printf("| Nº Curso       : %d                                              |\n", curso.nCurso);
+    printf("| Descripción (1): %s                   Plazas max (2): %d         |\n", curso.description,curso.plazasMax);
+    printf("| Desde       (3): %d/%d/%d             Hasta      (4): %d/%d/%d   |\n", curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio);
+    printf("| Iniciado    (5): %s                   Finalizado (5): %s         |\n", iniciado,finalizado);
+    printf("+------------------------------------------------------------------+\n");
 }

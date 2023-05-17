@@ -40,7 +40,7 @@ void consultaAlumno(){
     printf("\nNúmero de exp. : ");
     scanf("%d",&nExp);
     rewind(stdin);
-    if(comprobarExp(nExp,last_nexp)){
+    if(comprobar(nExp,last_nexp)){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
         mostrarAlumno(alumno);
@@ -158,7 +158,7 @@ void modificarAlumno(){
     printf("\nNúmero de exp. : ");
     scanf("%d",&nExp);
     rewind(stdin);
-    if(comprobarExp(nExp,last_nexp)){
+    if(comprobar(nExp,last_nexp)){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
         do{

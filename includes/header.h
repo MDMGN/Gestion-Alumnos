@@ -59,5 +59,6 @@ void menuCurso();
 void altaCurso();
 void introducirDatosCurso(CURSO*);
 void modificarCurso();
+void editarCurso(CURSO*);
 void consultaCurso();
 void mostrarCurso(CURSO curso);
