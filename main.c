@@ -1,7 +1,7 @@
 #include "./includes/header.h"
 #include "./includes/helpers.c"
-#include "./includes/alumnos.c"
-#include "./includes/cursos.c"
+#include "./includes/alumno.c"
+#include "./includes/curso.c"
 
 int main(){
     void (* function[])()={menuAlumno,menuCurso};

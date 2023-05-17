@@ -145,7 +145,7 @@ void editarCurso(CURSO *curso){
     char date[11];
     printf("\n¿Qué dato deseas editar?: ");
     scanf("%d",&resp);
-    rewind(stdin);
+    fflush(stdin);
     switch(resp){
         case 1:
             printf("\n Descripción: ");
