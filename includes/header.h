@@ -82,3 +82,5 @@ void mostrarCurso(CURSO curso);
 /*Funciones para el submenu de cursos*/
 
 void matriculaciones();
+void gestionarMatricula(FILE *FILE *,FILE *);
+int comprobarPlazas(int,int,FILE *);

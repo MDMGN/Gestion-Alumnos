@@ -27,11 +27,11 @@ void matriculaciones(){
         fclose(pf_matricula);
         return;
     }
-    pedirDatosMatricula(pf_alumn,pf_curso,pf_matricula);
+    gestionarMatricula(pf_alumn,pf_curso,pf_matricula);
 
 }
 
-void pedirDatosMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
+void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
     CURSO curso;ALUMNO alumno;MATRICULA matricula;
     int last_nCurso,last_nAlumn, nCurso,nAlumno;
 
@@ -59,6 +59,6 @@ void pedirDatosMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
 }
 
 /* 
-int comprobarPlazas(int ncursos,int maxPlazas){
+int comprobarPlazas(int ncursos,int maxPlazas,FILE *pf_matricula){
     return maxPlazas-ncursos > 0;
 } */
