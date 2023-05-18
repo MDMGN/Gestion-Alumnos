@@ -52,13 +52,21 @@ void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
         }
         fseek(pf_curso,(nCurso-1)*sizeof(CURSO),SEEK_SET);
         fread(&curso,sizeof(CURSO),1,pf_curso);
-        /* while(comprobarPlazas(CURSO curso,int totalC) && comprobar(nAlumno,last_nAlumn)){
+        while(comprobarPlazas(nCurso,curso.plazasMax,pf_matricula) && comprobar(nAlumno,last_nAlumn)){
 
-        } */
+        }
     }
 }
 
-/* 
-int comprobarPlazas(int ncursos,int maxPlazas,FILE *pf_matricula){
-    return maxPlazas-ncursos > 0;
-} */
+int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
+    MATRICULA matricula;
+    int matriculados=0;
+    fseek(pf_matricula,0,SEEK_SET);
+    
+    while(fread(&matricula,sizeof(MATRICULA),1,pf_matricula)==1){
+        if(matricula.nCurso==ncurso){
+            matriculados++;
+        }
+    }
+    return maxPlazas - matriculados > 0;
+ }
