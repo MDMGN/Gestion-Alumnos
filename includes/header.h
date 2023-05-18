@@ -9,6 +9,7 @@
 #define RUTA_A "data/alumnos.dat"
 #define RUTA_AS "data/asignaturas.dat"
 #define RUTA_C "data/cursos.dat"
+#define RUTA_M "data/matricula.dat"
 
 //Estructuras
 typedef struct{
@@ -36,6 +37,21 @@ typedef struct{
     int plazasMax;
 }CURSO;
 
+typedef struct{
+    int nMatricula;
+    int nCurso;
+    int nExp;
+    float nota;
+}MATRICULA;
+
+typedef struct{
+    int nMatricula;
+    int nCurso;
+    int nExp;
+    float nota;
+}NOTA;
+
+
 //Cabezeras de funciones
 
 /* Funciones auxiliares */
@@ -62,3 +78,7 @@ void modificarCurso();
 void editarCurso(CURSO*);
 void consultaCurso();
 void mostrarCurso(CURSO curso);
+
+/*Funciones para el submenu de cursos*/
+
+void matriculaciones();

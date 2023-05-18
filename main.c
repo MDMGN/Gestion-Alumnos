@@ -2,9 +2,10 @@
 #include "./includes/helpers.c"
 #include "./includes/alumno.c"
 #include "./includes/curso.c"
+#include "./includes/matriculaciones.c"
 
 int main(){
-    void (* function[])()={menuAlumno,menuCurso};
+    void (* function[])()={menuAlumno,menuCurso,matriculaciones};
     char *menuPrincipal[30]={"1. ALUMNOS.","2. CURSOS.","3. MATRICULACIONES.","4. GESTIÓN DE CURSOS.","5. SALIR."};
     int opc=menu(menuPrincipal,5);
     //Mostramos el menú hasta que el usuario elija la opción salir (5)

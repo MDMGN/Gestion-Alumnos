@@ -80,7 +80,7 @@ void editarAlumno(ALUMNO *alumno){
             fgets(alumno->nif,11,stdin);
             break;
         default:
-            printf("\n Opción incorrecta...");
+            printf("\n\n Opción incorrecta...");
             success=0;
             break;
     }
@@ -178,7 +178,6 @@ void modificarAlumno(){
 }
 
 //Mostrar datos del alummno
-
 void mostrarAlumno(ALUMNO alumno){
     system("cls");
     // Mostrar el menú

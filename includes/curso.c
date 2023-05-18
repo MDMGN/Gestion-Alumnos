@@ -86,7 +86,7 @@ void consultaCurso(){
         return;
     }
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
-    //Pedir nº de expediente.
+    //Pedir nº de curso.
     printf("\nNúmero de curso: ");
     scanf("%d",&nCurs);
     rewind(stdin);
@@ -116,7 +116,7 @@ void modificarCurso(){
         return;
     }
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
-    //Pedir nº de expediente.
+    //Pedir nº de curso.
     printf("\nNúmero de curso: ");
     scanf("%d",&nCurs);
     rewind(stdin);
@@ -186,7 +186,7 @@ void mostrarCurso(CURSO curso){
     system("cls");
     const char *iniciado= (curso.iniciado) ? "Sí" :  "No";
     const char *finalizado= (curso.finalizado) ? "Sí" :  "No";
-    // Mostrar los datos de curso
+    // Mostrar los datos del curso
     printf("+------------------------------------------------------------------+\n");
     printf("|                           FICHERO DE CURSO                       |\n");
     printf("|------------------------------------------------------------------|\n");
