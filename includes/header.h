@@ -89,7 +89,7 @@ void editarCurso(CURSO*);
 void consultaCurso();
 void mostrarCurso(CURSO curso);
 
-/*Funciones para el submenu de cursos*/
+/*Funciones para el submenu de matricula*/
 
 void matriculaciones();
 void gestionarMatricula(FILE *,FILE*,FILE*);
@@ -100,3 +100,6 @@ void pedirAlumno(int*);
 void escribirMatricula(MATRICULA*,int,int,int);
 int comprobarMatricula(int,int ,FILE *);
 void mostrarMatriculas();
+
+//Funciones para el submenu de Gestions de Cursos
+void gestionCursos();

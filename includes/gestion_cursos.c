@@ -1,0 +1,3 @@
+void gestionCursos(){
+    system("pause");
+}

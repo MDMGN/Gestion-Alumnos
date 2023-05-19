@@ -29,9 +29,9 @@ void consultaAlumno(){
     pf=fopen(RUTA_A,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: El fichero no existe.\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RED "\nError: El fichero no existe.\n\n" ANSI_COLOR_RESET);
         fclose(pf);
-        _getch();
+        system("pause");
         return;
     }
     last_nexp=totalRegistro(pf,sizeof(ALUMNO));
@@ -43,19 +43,18 @@ void consultaAlumno(){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
         mostrarAlumno(alumno);
-        printf("\n\nFichero cargado correctamente.");
+        printf(ANSI_COLOR_RED "\n\nFichero cargado correctamente.\n\n" ANSI_COLOR_RESET);
     }else{
-        printf("\n\nNº de expediente incorrecto.");
+        printf(ANSI_COLOR_RED "\n\nNº de expediente incorrecto.\n\n" ANSI_COLOR_RESET);
     }
-    printf("\n\nPresionar una tecla para continuar...");
     fclose(pf);
-    _getch();
+    system("pause");
 }
 
 //Modificamos los datos del alumno
 void editarAlumno(ALUMNO *alumno){
     int resp,success=1;
-    printf("\n¿Qué dato deseas editar?: ");
+    printf(ANSI_COLOR_BLUE "\n¿Qué dato deseas editar?: " ANSI_COLOR_RESET);
     scanf("%d",&resp);
     rewind(stdin);
     switch(resp){
@@ -80,12 +79,12 @@ void editarAlumno(ALUMNO *alumno){
             fgets(alumno->nif,11,stdin);
             break;
         default:
-            printf("\n\n Opción incorrecta...");
+            printf(ANSI_COLOR_CYAN "\n\n Opción incorrecta..." ANSI_COLOR_RESET);
             success=0;
             break;
     }
-    rewind(stdin);
-    if(success) printf("\n\n Modificación exitosa!\n");
+    fflush(stdin);
+    if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
 
 void menuAlumno(){
@@ -97,7 +96,7 @@ void menuAlumno(){
         (* function[opc-1])();
         opc=menu(menu_alummnos,4);
     }
-    printf("\n\nPresionar una tecla para continuar...");
+    printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para continuar..." ANSI_COLOR_RESET);
 }
 
 void altaAlumno(){
@@ -106,9 +105,9 @@ void altaAlumno(){
     //Abrimos o creamos el fichero de bits de en alumnos.dat
     pf=fopen(RUTA_A,"ab+");
     if(pf==NULL){
-        printf("\nError al crear o abrir el fichero.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RED "\n\nError al crear o abrir el fichero.\n\n" ANSI_COLOR_RESET);
         fclose(pf);
-        _getch();
+        system("pause");
         return;
     }
     alumno.nExped=totalRegistro(pf,sizeof(ALUMNO))+1;
@@ -125,19 +124,18 @@ void altaAlumno(){
     printf("+----------------------------------+\n");
     introducirDatosAlumno(&alumno);
     //Pedimos conformidad para guardar el registro
-    printf("\n¿Desea guardar el registro? (s/?): ");
+    printf(ANSI_COLOR_BLUE "\n\n¿Desea guardar el registro? (s/?): " ANSI_COLOR_RESET);
     resp=tolower(_getche());
     if(resp=='s'){
         //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
         fseek(pf, 0, SEEK_SET);
         fwrite(&alumno,sizeof(alumno),1,pf);
-        printf("\n\nRegistro guardado con exito!!");
+        printf(ANSI_COLOR_GREEN "\n\nRegistro guardado con exito!!\n\n" ANSI_COLOR_RESET);
     }else{
-        printf("\n\nRegistro no guardado.");
+        printf(ANSI_COLOR_CYAN "\n\nRegistro no guardado.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf);
-    printf("\n\nPresionar una tecla para continuar...");
-    _getch();
+    system("pause");
 }
 
 //Modificar los datos del alumno
@@ -148,9 +146,9 @@ void modificarAlumno(){
     pf=fopen(RUTA_A,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: El fichero no existe.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RED "\nError: El fichero  alumnos.dat no existe.\n\n" ANSI_COLOR_RESET);
         fclose(pf);
-        _getch();
+        system("pause");
         return;
     }
     last_nexp=totalRegistro(pf,sizeof(ALUMNO));
@@ -164,17 +162,16 @@ void modificarAlumno(){
         do{
             mostrarAlumno(alumno);
             editarAlumno(&alumno);
-            printf("\n¿Deseas seguir? (s/?): ");
+            printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RED);
             resp=tolower(_getche());
         }while (resp=='s');
         fseek(pf,(alumno.nExped-1)*sizeof(alumno),SEEK_SET);
         fwrite(&alumno,sizeof(alumno),1,pf);
     }else{
-        printf("\nError: Nº de expediente no valido.");
+        printf(ANSI_COLOR_RED "\n\n Nº de expediente no valido.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf);
-    printf("\n\nPresionar una tecla para continuar...");
-    _getch();
+    system("pause");
 }
 
 //Mostrar datos del alummno
