@@ -17,11 +17,6 @@ void matriculaciones(){
         return;
     }
     
-    fclose(pf_alumn);
-    fclose(pf_curso);
-
-    pf_alumn=fopen(RUTA_A,"rb");
-    pf_curso=fopen(RUTA_C,"rb");
     pf_matricula=fopen(RUTA_M,"ab+");
 
     if(pf_matricula==NULL){
@@ -31,7 +26,6 @@ void matriculaciones(){
         return;
     }
     gestionarMatricula(pf_alumn,pf_curso,pf_matricula);
-
 }
 
 void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
@@ -41,7 +35,7 @@ void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
     
     last_nCurso=totalRegistro(pf_curso,sizeof(CURSO));
     last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
-    pedirCurso(&nCurso);
+    pedirCurso(&nCurso,"(0 para salir)");
     while(nCurso!=0){
         system("cls");
         if(!comprobar(nCurso,last_nCurso)){
@@ -52,15 +46,15 @@ void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
             if(!comprobarPlazas(nCurso,curso.plazasMax,pf_matricula)){
                     printf(ANSI_COLOR_RED "\n\nNo quedan plazas para este curso.\n\n" ANSI_COLOR_RESET);
             }else{
-                pedirAlumno(&nAlumno);
+                pedirAlumno(&nAlumno,"(0 para salir)");
                 while(nAlumno!=0 && comprobarPlazas(nCurso,curso.plazasMax,pf_matricula)){
                     gestionarAlumno(pf_matricula,pf_alumn,nAlumno,nCurso,last_nAlumn);
-                    pedirAlumno(&nAlumno);
+                    pedirAlumno(&nAlumno, "(0 para salir)");
                 }
             }
         }
         system("pause");
-        pedirCurso(&nCurso);
+        pedirCurso(&nCurso,"(0 para salir)");
     }
 
     fclose(pf_alumn);
@@ -91,13 +85,6 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
     return  0;
  }
 
- void pedirCurso(int* curso){
-    system("cls");
-    printf("\nNº de curso (0 para salir): ");
-    scanf("%d",curso);
-    fflush(stdin);
- }
-
  void gestionarAlumno(FILE *pf_matricula,FILE *pf_alumn,int nAlumno,int nCurso,int last_nAlumn){
     ALUMNO alumno;MATRICULA matricula;
     char resp;int nMatricula;
@@ -123,12 +110,6 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
     system("pause");
  }
 
-  void pedirAlumno(int* alumno){
-    system("cls");
-    printf("\nNº de alumno (0 para salir): ");
-    scanf("%d",alumno);
-    fflush(stdin);
- }
  void escribirMatricula(MATRICULA*matricula,int nMatricula,int nCurso,int nExp){
     matricula->nMatricula=nMatricula;
     matricula->nCurso=nCurso;

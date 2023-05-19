@@ -36,9 +36,7 @@ void consultaAlumno(){
     }
     last_nexp=totalRegistro(pf,sizeof(ALUMNO));
     //Pedir nº de expediente.
-    printf("\nNúmero de exp. : ");
-    scanf("%d",&nExp);
-    rewind(stdin);
+    pedirAlumno(&nExp,"");
     if(comprobar(nExp,last_nexp)){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
@@ -153,9 +151,7 @@ void modificarAlumno(){
     }
     last_nexp=totalRegistro(pf,sizeof(ALUMNO));
     //Pedir nº de expediente.
-    printf("\nNúmero de exp. : ");
-    scanf("%d",&nExp);
-    rewind(stdin);
+    pedirAlumno(&nExp,"");
     if(comprobar(nExp,last_nexp)){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
@@ -189,3 +185,10 @@ void mostrarAlumno(ALUMNO alumno){
     printf("| N.I.F.        (5): %-17s|\n", alumno.nif);
     printf("+----------------------------------+\n");
 }
+
+void pedirAlumno(int* alumno,char* extra){
+    system("cls");
+    printf("\nNº de Exped. %s: ",extra);
+    scanf("%d",alumno);
+    fflush(stdin);
+ }

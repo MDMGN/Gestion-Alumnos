@@ -10,6 +10,7 @@
 #define RUTA_AS "data/asignaturas.dat"
 #define RUTA_C "data/cursos.dat"
 #define RUTA_M "data/matricula.dat"
+#define RUTA_LISTA_AL "informes/alumnos.txt"
 
 //Colores
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -79,6 +80,7 @@ void introducirDatosAlumno(ALUMNO *);
 void mostrarAlumno(ALUMNO);
 void modificarAlumno();
 void editarAlumno(ALUMNO *);
+void pedirAlumno(int*,char*);
 
 /* Funciones para el submenu de cursos */
 void menuCurso();
@@ -88,18 +90,21 @@ void modificarCurso();
 void editarCurso(CURSO*);
 void consultaCurso();
 void mostrarCurso(CURSO curso);
+void pedirCurso(int*,char*);
 
 /*Funciones para el submenu de matricula*/
 
 void matriculaciones();
 void gestionarMatricula(FILE *,FILE*,FILE*);
 int comprobarPlazas(int,int,FILE *);
-void pedirCurso(int*);
 void gestionarAlumno(FILE *,FILE *,int,int,int);
-void pedirAlumno(int*);
 void escribirMatricula(MATRICULA*,int,int,int);
 int comprobarMatricula(int,int ,FILE *);
 void mostrarMatriculas();
 
 //Funciones para el submenu de Gestions de Cursos
 void gestionCursos();
+void comenzarCurso();
+void finalizarCurso();
+void boletinAlumno();
+void listarAlumnosPorCurso(int,FILE*,FILE*);

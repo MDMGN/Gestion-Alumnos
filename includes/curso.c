@@ -86,9 +86,7 @@ void consultaCurso(){
     }
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
     //Pedir nº de curso.
-    printf("\nNúmero de curso: ");
-    scanf("%d",&nCurs);
-    fflush(stdin);
+    pedirCurso(&nCurs,"");
     if(comprobar(nCurs,last_ncurs)){
         fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
 	    fread(&curso, sizeof(curso), 1, pf);
@@ -115,9 +113,7 @@ void modificarCurso(){
     }
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
     //Pedir nº de curso.
-    printf("\nNúmero de curso: ");
-    scanf("%d",&nCurs);
-    rewind(stdin);
+    pedirCurso(&nCurs,"");
     if(comprobar(nCurs,last_ncurs)){
         fseek(pf, (nCurs-1) * sizeof(CURSO), SEEK_SET);
 	    fread(&curso, sizeof(curso), 1, pf);
@@ -178,6 +174,13 @@ void editarCurso(CURSO *curso){
     fflush(stdin);
     if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
+
+void pedirCurso(int* curso,char* extra){
+    system("cls");
+    printf("\nNº de curso %s: ",extra);
+    scanf("%d",curso);
+    fflush(stdin);
+ }
 
 void mostrarCurso(CURSO curso){
     system("cls");
