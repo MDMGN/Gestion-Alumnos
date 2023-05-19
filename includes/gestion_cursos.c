@@ -160,7 +160,6 @@ void informeResumen(CURSO curso){
     fprintf(pf,"\n+--------------------------------------------------------------------+\n");
     fprintf(pf,"| %-40s |\n","LISTADO RESUMEN DE CURSOS FINALIZADOS");
     fprintf(pf,"+--------------------------------------------------------------------+\n");
-    //while(fread(&curso,sizeof()))
 }
 
 void boletinAlumno(){
