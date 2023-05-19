@@ -7,7 +7,7 @@ void menuCurso(){
         (* function[opc-1])();
         opc=menu(menu_alummnos,4);
     }
-    printf("\n\nPresionar una tecla para volver...");
+    printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para volver..." ANSI_COLOR_RESET);
 }
 
 void altaCurso(){
@@ -16,9 +16,9 @@ void altaCurso(){
     //Abrimos o creamos el fichero de bits de en alumnos.dat
     pf=fopen(RUTA_C,"ab+");
     if(pf==NULL){
-        printf("\nError al crear o abrir el fichero.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RED "\nError: No se encuentra la carpeta data.\n\n" ANSI_COLOR_RESET);
         fclose(pf);
-        _getch();
+        system("cls");
         return;
     }
     curso.nCurso=totalRegistro(pf,sizeof(CURSO))+1;
@@ -33,15 +33,15 @@ void altaCurso(){
     printf("+--------------------------------------------------------+\n");
     introducirDatosCurso(&curso);
     //Pedimos conformidad para guardar el registro
-    printf("\n¿Desea guardar el registro? (s/?): ");
+    printf(ANSI_COLOR_BLUE "\n¿Desea guardar el registro? (s/?): " ANSI_COLOR_RESET);
     resp=tolower(_getche());
     if(resp=='s'){
         //Guardamos la estructura de CURSO con los datos introducidos
         fseek(pf, 0, SEEK_SET);
         fwrite(&curso,sizeof(curso),1,pf);
-        printf("\nRegistro guardado con exito!!\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_GREEN "\n\nRegistro guardado con exito!!\n\n" ANSI_COLOR_RESET);
     }else{
-        printf("\nRegistro no guardado.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_GREEN "\n\nRegistro no guardado.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf);
     _getch();
@@ -79,9 +79,9 @@ void consultaCurso(){
     pf=fopen(RUTA_C,"rb");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: No se encuentra la carpeta data.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RED "\nError: No se encuentra la carpeta data.\n\n." ANSI_COLOR_RESET);
         fclose(pf);
-        _getch();
+        system("pause");
         return;
     }
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
@@ -93,12 +93,12 @@ void consultaCurso(){
         fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
 	    fread(&curso, sizeof(curso), 1, pf);
         mostrarCurso(curso);
-        printf("\n\nFichero cargado correctamente.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_GREEN "\n\nFichero cargado correctamente.\n\n" ANSI_COLOR_RESET);
     }else{
-        printf("\n\nNº de curso incorrecto.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RED "\n\nNº de curso incorrecto.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf);
-    _getch();
+    system("pause");
 }
 
 void modificarCurso(){
@@ -108,9 +108,9 @@ void modificarCurso(){
     pf=fopen(RUTA_C,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: El fichero no existe.\n\nPresionar una tecla para continuar...");
+        printf(ANSI_COLOR_RESET "\n\nEl fichero cursos.dat no existe.\n\n" ANSI_COLOR_RESET);
         fclose(pf);
-        _getch();
+        system("pause");
         return;
     }
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
@@ -124,24 +124,23 @@ void modificarCurso(){
         do{
             mostrarCurso(curso);
             editarCurso(&curso);
-            printf("\nDeseas seguir? (s/?): ");
+            printf(ANSI_COLOR_BLUE "\nDeseas seguir? (s/?): " ANSI_COLOR_RESET);
             resp=tolower(_getche());
         }while (resp=='s');
         fseek(pf,(curso.nCurso-1)*sizeof(CURSO),SEEK_SET);
         fwrite(&curso,sizeof(CURSO),1,pf);
     }else{
-        printf("\nError: Nº de curso no valido.");
+        printf(ANSI_COLOR_RED "\nNº de curso no valido.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf);
-    printf("\n\nPresionar una tecla para continuar...");
-    _getch();
+    system("pause");
 }
 
 //Modificamos los datos del curso
 void editarCurso(CURSO *curso){
     int resp,success=1;
     char date[11];
-    printf("\n¿Qué dato deseas editar?: ");
+    printf(ANSI_COLOR_BLUE "\n¿Qué dato deseas editar?: " ANSI_COLOR_RESET);
     scanf("%d",&resp);
     fflush(stdin);
     switch(resp){
@@ -172,12 +171,12 @@ void editarCurso(CURSO *curso){
             scanf("%d",&curso->iniciado);
             break;
         default:
-            printf("\n Opción incorrecta...");
+            printf(ANSI_COLOR_CYAN "\n Opción incorrecta..." ANSI_COLOR_RESET);
             success=0;
             break;
     }
     fflush(stdin);
-    if(success) printf("\n\n Modificación exitosa!");
+    if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
 
 void mostrarCurso(CURSO curso){
