@@ -3,6 +3,7 @@
 #include "./includes/alumno.c"
 #include "./includes/curso.c"
 #include "./includes/matriculaciones.c"
+#include "./includes/gestion_cursos.c"
 
 int main(){
     void (* function[])()={menuAlumno,menuCurso,matriculaciones};

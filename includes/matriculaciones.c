@@ -80,6 +80,7 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
             matriculados++;
         }
     }
+    debugearInt(matricula.nExp);
     return maxPlazas - matriculados > 0;
  }
 
@@ -105,6 +106,7 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
         if(resp=='s'){
             nMatricula=totalRegistro(pf_matricula,sizeof(MATRICULA))+1;
             escribirMatricula(&matricula,nMatricula,nCurso,nAlumno);
+            fread(&matricula,sizeof(MATRICULA),1,pf_alumn);
             printf("\nAlumno matriculado correctamente.\n\nPresionar una tecla para continuar...");
         }else{
             printf("\nAlumno no matriculado.\n\nPresionar una tecla para continuar...");
