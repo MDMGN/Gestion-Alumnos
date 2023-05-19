@@ -49,6 +49,7 @@ void comenzarCurso(){
             curso.iniciado=1;
         }
         listarAlumnosPorCurso(nCurso,pf_matricula,pf_alumn);
+        printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/matriculados.txt\n\n" ANSI_COLOR_RESET);
     }else{
         printf(ANSI_COLOR_RED "\n\nNª de cursos no valido.\n\n" ANSI_COLOR_RESET);
     }
