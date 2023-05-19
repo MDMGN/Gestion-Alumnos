@@ -11,6 +11,15 @@
 #define RUTA_C "data/cursos.dat"
 #define RUTA_M "data/matricula.dat"
 
+//Colores
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 //Estructuras
 typedef struct{
     int nExped;
@@ -63,7 +72,7 @@ void insertarFecha(char date[],FECHA* fecha);
 void debugearInt(int);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
-void mostrarMenu(char*,int);
+void mostrarMenu(char**,int);
 void altaAlumno();
 void consultaAlumno();
 void introducirDatosAlumno(ALUMNO *);
@@ -88,4 +97,6 @@ int comprobarPlazas(int,int,FILE *);
 void pedirCurso(int*);
 void gestionarAlumno(FILE *,FILE *,int,int,int);
 void pedirAlumno(int*);
- void escribirMatricula(MATRICULA*,int,int,int);
+void escribirMatricula(MATRICULA*,int,int,int);
+int comprobarMatricula(int,int ,FILE *);
+void mostrarMatriculas();
