@@ -11,6 +11,7 @@
 #define RUTA_C "data/cursos.dat"
 #define RUTA_M "data/matricula.dat"
 #define RUTA_LISTA_AL "informes/alumnos.txt"
+#define RUTA_LISTA_RE "informes/resumenes.txt"
 
 //Colores
 #define ANSI_COLOR_RED     "\x1b[31m"

@@ -17,7 +17,7 @@ void comenzarCurso(){
     int last_nCurso,last_nAlumn, nCurso;
 
     pf_alumn=fopen(RUTA_A,"rb");
-    pf_curso=fopen(RUTA_C,"rb");
+    pf_curso=fopen(RUTA_C,"rb+");
     pf_matricula=fopen(RUTA_M,"rb");
 
     if(pf_alumn==NULL){
@@ -36,9 +36,8 @@ void comenzarCurso(){
         system("pause");
         return;
     }
-    
     last_nCurso=totalRegistro(pf_curso,sizeof(CURSO));
-    last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
+    //last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
 
     pedirCurso(&nCurso,"");
 
@@ -47,6 +46,7 @@ void comenzarCurso(){
         fread(&curso,sizeof(CURSO),1,pf_curso);
         if(curso.iniciado==0){
             curso.iniciado=1;
+            fwrite(&curso,sizeof(CURSO),1,pf_curso);
         }
         listarAlumnosPorCurso(nCurso,pf_matricula,pf_alumn);
         printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/matriculados.txt\n\n" ANSI_COLOR_RESET);
@@ -72,14 +72,95 @@ void listarAlumnosPorCurso(int nCurso,FILE*pf_matriculas,FILE*pf_alumnos){
             fseek(pf_alumnos,sizeof(ALUMNO)*(matricula.nExp-1),SEEK_SET);
             fread(&alumno,sizeof(ALUMNO),1,pf_alumnos);
             fprintf(pf,"| %-20d %-20s|\n",nCurso,alumno.nombre);
-    fprintf(pf,"\n+----------------------------------------+\n");
+            fprintf(pf,"\n+----------------------------------------+\n");
         }
     }
     fclose(pf);
 }
 
 void finalizarCurso(){
+    system("cls");
+    CURSO curso;
+    FILE *pf_alumn,*pf_curso,*pf_matricula;
+    int last_nCurso,nCurso;
 
+    pf_alumn=fopen(RUTA_A,"rb");
+    pf_curso=fopen(RUTA_C,"rb+");
+    pf_matricula=fopen(RUTA_M,"rb+");
+
+    if(pf_alumn==NULL){
+        printf(ANSI_COLOR_RED "\n\nError: No se encontro el fichero de alumnos.\n\n" ANSI_COLOR_RESET);
+        fclose(pf_alumn);
+        system("pause");
+        return;
+    }else if(pf_curso==NULL){
+        printf(ANSI_COLOR_RED "\n\nError: No se encontro el fichero de cursos.\n\n" ANSI_COLOR_RESET);
+        fclose(pf_curso);
+        system("pause");
+        return;
+    }else if(pf_matricula==NULL){
+        printf(ANSI_COLOR_RED "\n\nError: No se encontro el fichero de matricula.\n\n" ANSI_COLOR_RESET);
+        fclose(pf_matricula);
+        system("pause");
+        return;
+    }
+    
+    last_nCurso=totalRegistro(pf_curso,sizeof(CURSO));
+
+    pedirCurso(&nCurso,"");
+    if(comprobar(nCurso,last_nCurso)){
+        fseek(pf_curso,sizeof(CURSO)*(nCurso-1),SEEK_SET);
+        fread(&curso,sizeof(CURSO),1,pf_curso);
+        mostrarCurso(curso);
+        curso.finalizado=1;
+        fwrite(&curso,sizeof(CURSO),1,pf_curso);
+        gestionarNotas(nCurso,pf_matricula,pf_alumn);
+        informeResumen(CURSO curso);
+    }else{
+        printf(ANSI_COLOR_RED "\n\n Nº de curso no valido.\n\n" ANSI_COLOR_RESET);
+    }
+}
+
+void gestionarNotas(int nCurso,FILE*pf_matriculas,FILE*pf_alumnos){
+    MATRICULA matricula;ALUMNO alumno;
+    float nota;
+
+    fseek(pf_matriculas,0,SEEK_SET);
+    while (fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1)
+    {
+        if(matricula.nCurso==nCurso){
+            fseek(pf_alumnos,sizeof(ALUMNO)*(matricula.nExp-1),SEEK_SET);
+            fread(&alumno,sizeof(ALUMNO)*(matricula.nExp-1),1,pf_alumnos);
+            mostrarAlumno(alumno);
+            pedirNota(&nota);
+            matricula.nota=nota;
+            fwrite(&matricula,sizeof(MATRICULA),1,pf_matriculas);
+            printf(ANSI_COLOR_GREEN "\n\nLa nota se guardo con exito!\n\n" ANSI_COLOR_RESET);
+            system("pause");
+        }
+    }
+}
+
+void pedirNota(float* nota){
+    printf("\n\nNota: ");
+    scanf("%f",nota);
+    fflush(stdin);
+    if(nota>0 || nota > 10){
+        printf(ANSI_COLOR_RED "\n\nLa nota debe estar entre 0 y 10.\n\n" ANSI_COLOR_RESET);
+        system("pause");
+        pedirNota(nota);
+    }
+    return;
+}
+
+void informeResumen(CURSO curso){
+    system("cls");
+    FILE*pf=fopen(RUTA_LISTA_RE,"w");
+    
+    fprintf(pf,"\n+--------------------------------------------------------------------+\n");
+    fprintf(pf,"| %-40s |\n","LISTADO RESUMEN DE CURSOS FINALIZADOS");
+    fprintf(pf,"+--------------------------------------------------------------------+\n");
+    //while(fread(&curso,sizeof()))
 }
 
 void boletinAlumno(){
