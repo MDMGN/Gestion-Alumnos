@@ -86,6 +86,6 @@ void matriculaciones();
 void gestionarMatricula(FILE *,FILE*,FILE*);
 int comprobarPlazas(int,int,FILE *);
 void pedirCurso(int*);
-void gestionarAlumno(FILE *,FILE *,int,int);
+void gestionarAlumno(FILE *,FILE *,int,int,int);
 void pedirAlumno(int*);
  void escribirMatricula(MATRICULA*,int,int,int);

@@ -88,8 +88,7 @@ void consultaCurso(){
     //Pedir nº de curso.
     printf("\nNúmero de curso: ");
     scanf("%d",&nCurs);
-    rewind(stdin);
-    debugear(nCurs);
+    fflush(stdin);
     if(comprobar(nCurs,last_ncurs)){
         fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
 	    fread(&curso, sizeof(curso), 1, pf);

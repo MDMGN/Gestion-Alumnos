@@ -57,7 +57,7 @@ void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
             }else{
                 pedirAlumno(&nAlumno);
                 while(nAlumno!=0){
-                    gestionarAlumno(pf_matricula,pf_alumn,nAlumno,nCurso);
+                    gestionarAlumno(pf_matricula,pf_alumn,nAlumno,nCurso,last_nAlumn);
                     pedirAlumno(&nAlumno);
                 }
             }
@@ -90,10 +90,10 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
     fflush(stdin);
  }
 
- void gestionarAlumno(FILE *pf_matricula,FILE *pf_alumn,int nAlumno,int nCurso){
+ void gestionarAlumno(FILE *pf_matricula,FILE *pf_alumn,int nAlumno,int nCurso,int last_nAlumn){
     ALUMNO alumno;MATRICULA matricula;
     char resp;int nMatricula;
-    if(!comprobar(nAlumno,nCurso)){
+    if(!comprobar(nAlumno,last_nAlumn)){
             printf("\nNº alumno incorrecto.\n\nPresionar una tecla para continuar...");
             _getch();
     }else{
