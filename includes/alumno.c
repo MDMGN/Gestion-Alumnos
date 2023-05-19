@@ -29,9 +29,8 @@ void consultaAlumno(){
     pf=fopen(RUTA_A,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: El fichero no existe.");
+        printf("\nError: El fichero no existe.\nPresionar una tecla para continuar...");
         fclose(pf);
-        printf("\nVolviendo...");
         _getch();
         return;
     }
@@ -48,6 +47,7 @@ void consultaAlumno(){
     }else{
         printf("\n\nNº de expediente incorrecto.");
     }
+    printf("\n\nPresionar una tecla para continuar...");
     fclose(pf);
     _getch();
 }
@@ -97,7 +97,7 @@ void menuAlumno(){
         (* function[opc-1])();
         opc=menu(menu_alummnos,4);
     }
-    printf("\nVolviendo...");
+    printf("\n\nPresionar una tecla para continuar...");
 }
 
 void altaAlumno(){
@@ -106,7 +106,7 @@ void altaAlumno(){
     //Abrimos o creamos el fichero de bits de en alumnos.dat
     pf=fopen(RUTA_A,"ab+");
     if(pf==NULL){
-        printf("\nError al crear o abrir el fichero.");
+        printf("\nError al crear o abrir el fichero.\n\nPresionar una tecla para continuar...");
         fclose(pf);
         _getch();
         return;
@@ -125,17 +125,18 @@ void altaAlumno(){
     printf("+----------------------------------+\n");
     introducirDatosAlumno(&alumno);
     //Pedimos conformidad para guardar el registro
-    printf("\nDesea guardar el registro? (s/?): ");
+    printf("\n¿Desea guardar el registro? (s/?): ");
     resp=tolower(_getche());
     if(resp=='s'){
         //Guardamos la estructura de ALUMNO con los datos introducidos en el fichero
         fseek(pf, 0, SEEK_SET);
         fwrite(&alumno,sizeof(alumno),1,pf);
-        printf("\nRegistro guardado con exito!!");
+        printf("\n\nRegistro guardado con exito!!");
     }else{
-        printf("\nVolviendo...");
+        printf("\n\nRegistro no guardado.");
     }
     fclose(pf);
+    printf("\n\nPresionar una tecla para continuar...");
     _getch();
 }
 
@@ -147,9 +148,8 @@ void modificarAlumno(){
     pf=fopen(RUTA_A,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: El fichero no existe.");
+        printf("\nError: El fichero no existe.\n\nPresionar una tecla para continuar...");
         fclose(pf);
-        printf("\nVolviendo...");
         _getch();
         return;
     }
@@ -164,7 +164,7 @@ void modificarAlumno(){
         do{
             mostrarAlumno(alumno);
             editarAlumno(&alumno);
-            printf("\nDeseas seguir? (s/?): ");
+            printf("\n¿Deseas seguir? (s/?): ");
             resp=tolower(_getche());
         }while (resp=='s');
         fseek(pf,(alumno.nExped-1)*sizeof(alumno),SEEK_SET);
@@ -173,7 +173,7 @@ void modificarAlumno(){
         printf("\nError: Nº de expediente no valido.");
     }
     fclose(pf);
-    printf("\nVolviendo...");
+    printf("\n\nPresionar una tecla para continuar...");
     _getch();
 }
 

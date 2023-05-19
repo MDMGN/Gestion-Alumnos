@@ -8,10 +8,12 @@ void matriculaciones(){
     if(pf_alumn==NULL){
         printf("\n\nError: No se encontro el fichero de alumnos.");
         fclose(pf_alumn);
+        _getch();
         return;
     }else if(pf_curso==NULL){
         printf("\n\nError: No se encontro el fichero de cursos.");
         fclose(pf_curso);
+        _getch();
         return;
     }
     
@@ -20,11 +22,12 @@ void matriculaciones(){
 
     pf_alumn=fopen(RUTA_A,"rb");
     pf_curso=fopen(RUTA_C,"rb");
-    pf_matricula=fopen(RUTA_M,"rb+");
+    pf_matricula=fopen(RUTA_M,"ab+");
 
     if(pf_matricula==NULL){
         printf("\n\nError: No se encontro el fichero de matricula.");
         fclose(pf_matricula);
+        _getch();
         return;
     }
     gestionarMatricula(pf_alumn,pf_curso,pf_matricula);
@@ -32,30 +35,39 @@ void matriculaciones(){
 }
 
 void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
-    CURSO curso;ALUMNO alumno;MATRICULA matricula;
+    CURSO curso;
     int last_nCurso,last_nAlumn, nCurso,nAlumno;
 
-    last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
+    
     last_nCurso=totalRegistro(pf_curso,sizeof(CURSO));
-
-    printf("\nNº de curso: ");
-    scanf("%d",&nCurso);
-    fflsuh(stdin);
+    last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
+    pedirCurso(&nCurso);
     while(nCurso!=0){
-        while(!comprobar(nCurso,last_nCurso)){
-           printf("\nNº curso incorrecto.");
+        system("cls");
+        if(!comprobar(nCurso,last_nCurso)){
+           printf("\nNº curso incorrecto.\nPresionar una tecla para continuar...");
            _getch();
-           system("cls");
-           printf("\nNº de curso: ");
-            scanf("%d",&nCurso);
-            fflsuh(stdin);
-        }
-        fseek(pf_curso,(nCurso-1)*sizeof(CURSO),SEEK_SET);
-        fread(&curso,sizeof(CURSO),1,pf_curso);
-        while(comprobarPlazas(nCurso,curso.plazasMax,pf_matricula) && comprobar(nAlumno,last_nAlumn)){
+        }else{
+            fseek(pf_curso,(nCurso-1)*sizeof(CURSO),SEEK_SET);
+            fread(&curso,sizeof(CURSO),1,pf_curso);
 
+            if(!comprobarPlazas(nCurso,curso.plazasMax,pf_curso)){
+                    printf("\nNo quedan plazas para este curso.\nPresionar una tecla para continuar...");
+                    _getch();
+            }else{
+                pedirAlumno(&nAlumno);
+                while(nAlumno!=0){
+                    gestionarAlumno(pf_matricula,pf_alumn,nAlumno,nCurso);
+                    pedirAlumno(&nAlumno);
+                }
+            }
         }
+        pedirCurso(&nCurso);
     }
+
+    fclose(pf_alumn);
+    fclose(pf_curso);
+    fclose(pf_matricula);
 }
 
 int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
@@ -69,4 +81,48 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
         }
     }
     return maxPlazas - matriculados > 0;
+ }
+
+ void pedirCurso(int* curso){
+    system("cls");
+    printf("\nNº de curso: ");
+    scanf("%d",curso);
+    fflush(stdin);
+ }
+
+ void gestionarAlumno(FILE *pf_matricula,FILE *pf_alumn,int nAlumno,int nCurso){
+    ALUMNO alumno;MATRICULA matricula;
+    char resp;int nMatricula;
+    if(!comprobar(nAlumno,nCurso)){
+            printf("\nNº alumno incorrecto.\n\nPresionar una tecla para continuar...");
+            _getch();
+    }else{
+        fseek(pf_alumn,sizeof(ALUMNO)*(nAlumno-1),SEEK_SET);
+        fread(&alumno,sizeof(ALUMNO),1,pf_alumn);
+        mostrarAlumno(alumno);
+        printf("\n\n¿Deseas matricularlo al curso? (s/?): ");
+        resp=tolower(_getche());
+        if(resp=='s'){
+            nMatricula=totalRegistro(pf_matricula,sizeof(MATRICULA))+1;
+            escribirMatricula(&matricula,nMatricula,nCurso,nAlumno);
+            printf("\nAlumno matriculado correctamente.\n\nPresionar una tecla para continuar...");
+        }else{
+            printf("\nAlumno no matriculado.\n\nPresionar una tecla para continuar...");
+        }
+         _getch();
+    }
+ }
+
+  void pedirAlumno(int* alumno){
+    system("cls");
+    printf("\nNº de alumno: ");
+    scanf("%d",alumno);
+    fflush(stdin);
+ }
+ void escribirMatricula(MATRICULA*matricula,int nMatricula,int nCurso,int nExp){
+    matricula->nMatricula=nMatricula;
+    matricula->nCurso=nCurso;
+    matricula->nExp=nExp;
+    printf("\nNota: ");
+    scanf("%f",&matricula->nota);
  }

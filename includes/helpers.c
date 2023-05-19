@@ -80,7 +80,12 @@ void insertarFecha(char date[],FECHA* fecha){
 
 //Comprobar si el nº expediente/curso/profesor está dentro de los límites.
 int comprobar(int n,int lastN){
-   return !(n < 0 || n > lastN);
+   return !(n < 1 || n > lastN);
+}
+
+void debugearInt(int n){
+    printf("\n|%d|\n",n);
+    _getch();
 }
 
 /*

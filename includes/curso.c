@@ -7,7 +7,7 @@ void menuCurso(){
         (* function[opc-1])();
         opc=menu(menu_alummnos,4);
     }
-    printf("\nVolviendo...");
+    printf("\n\nPresionar una tecla para volver...");
 }
 
 void altaCurso(){
@@ -16,7 +16,7 @@ void altaCurso(){
     //Abrimos o creamos el fichero de bits de en alumnos.dat
     pf=fopen(RUTA_C,"ab+");
     if(pf==NULL){
-        printf("\nError al crear o abrir el fichero.");
+        printf("\nError al crear o abrir el fichero.\n\nPresionar una tecla para continuar...");
         fclose(pf);
         _getch();
         return;
@@ -33,15 +33,15 @@ void altaCurso(){
     printf("+--------------------------------------------------------+\n");
     introducirDatosCurso(&curso);
     //Pedimos conformidad para guardar el registro
-    printf("\nDesea guardar el registro? (s/?): ");
+    printf("\n¿Desea guardar el registro? (s/?): ");
     resp=tolower(_getche());
     if(resp=='s'){
         //Guardamos la estructura de CURSO con los datos introducidos
         fseek(pf, 0, SEEK_SET);
         fwrite(&curso,sizeof(curso),1,pf);
-        printf("\nRegistro guardado con exito!!");
+        printf("\nRegistro guardado con exito!!\n\nPresionar una tecla para continuar...");
     }else{
-        printf("\nVolviendo...");
+        printf("\nRegistro no guardado.\n\nPresionar una tecla para continuar...");
     }
     fclose(pf);
     _getch();
@@ -79,9 +79,8 @@ void consultaCurso(){
     pf=fopen(RUTA_C,"rb");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: No se encuentra la carpeta data.");
+        printf("\nError: No se encuentra la carpeta data.\n\nPresionar una tecla para continuar...");
         fclose(pf);
-        printf("\nVolviendo...");
         _getch();
         return;
     }
@@ -90,13 +89,14 @@ void consultaCurso(){
     printf("\nNúmero de curso: ");
     scanf("%d",&nCurs);
     rewind(stdin);
+    debugear(nCurs);
     if(comprobar(nCurs,last_ncurs)){
         fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
 	    fread(&curso, sizeof(curso), 1, pf);
         mostrarCurso(curso);
-        printf("\n\nFichero cargado correctamente.");
+        printf("\n\nFichero cargado correctamente.\n\nPresionar una tecla para continuar...");
     }else{
-        printf("\n\nNº de expediente incorrecto.");
+        printf("\n\nNº de curso incorrecto.\n\nPresionar una tecla para continuar...");
     }
     fclose(pf);
     _getch();
@@ -109,9 +109,8 @@ void modificarCurso(){
     pf=fopen(RUTA_C,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf("\nError: El fichero no existe.");
+        printf("\nError: El fichero no existe.\n\nPresionar una tecla para continuar...");
         fclose(pf);
-        printf("\nVolviendo...");
         _getch();
         return;
     }
@@ -135,7 +134,7 @@ void modificarCurso(){
         printf("\nError: Nº de curso no valido.");
     }
     fclose(pf);
-    printf("\nVolviendo...");
+    printf("\n\nPresionar una tecla para continuar...");
     _getch();
 }
 
@@ -179,7 +178,7 @@ void editarCurso(CURSO *curso){
             break;
     }
     fflush(stdin);
-    if(success) printf("\n\n Modificación exitosa!\n");
+    if(success) printf("\n\n Modificación exitosa!");
 }
 
 void mostrarCurso(CURSO curso){

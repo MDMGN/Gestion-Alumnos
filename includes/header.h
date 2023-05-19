@@ -60,6 +60,7 @@ int menu(char **,int);
 int comprobar(int,int);
 int totalRegistro(FILE *,long);
 void insertarFecha(char date[],FECHA* fecha);
+void debugearInt(int);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void mostrarMenu(char*,int);
@@ -82,5 +83,9 @@ void mostrarCurso(CURSO curso);
 /*Funciones para el submenu de cursos*/
 
 void matriculaciones();
-void gestionarMatricula(FILE *FILE *,FILE *);
+void gestionarMatricula(FILE *,FILE*,FILE*);
 int comprobarPlazas(int,int,FILE *);
+void pedirCurso(int*);
+void gestionarAlumno(FILE *,FILE *,int,int);
+void pedirAlumno(int*);
+ void escribirMatricula(MATRICULA*,int,int,int);
