@@ -41,7 +41,7 @@ void consultaAlumno(){
         fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
 	    fread(&alumno, sizeof(alumno), 1, pf);
         mostrarAlumno(alumno);
-        printf(ANSI_COLOR_RED "\n\nFichero cargado correctamente.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_GREEN "\n\nFichero cargado correctamente.\n\n" ANSI_COLOR_RESET);
     }else{
         printf(ANSI_COLOR_RED "\n\nNº de expediente incorrecto.\n\n" ANSI_COLOR_RESET);
     }

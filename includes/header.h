@@ -108,4 +108,7 @@ void gestionCursos();
 void comenzarCurso();
 void finalizarCurso();
 void boletinAlumno();
-void listarAlumnosPorCurso(int,FILE*,FILE*);
+int informeAlumnosPorCurso(int,FILE*,FILE*);
+void gestionarNotas(int,FILE*,FILE*);
+int informeResumen(FILE*,FILE*);
+void pedirNota(float* nota);
