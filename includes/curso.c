@@ -126,8 +126,9 @@ void modificarCurso(){
         fseek(pf,(curso.nCurso-1)*sizeof(CURSO),SEEK_SET);
         fwrite(&curso,sizeof(CURSO),1,pf);
     }else{
-        printf(ANSI_COLOR_RED "\nNº de curso no valido.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nNº de curso no valido." ANSI_COLOR_RESET);
     }
+    printf("\n\n");
     fclose(pf);
     system("pause");
 }
@@ -162,9 +163,10 @@ void editarCurso(CURSO *curso){
         case 5:
             printf("\n Iniciado: ");
             scanf("%d",&curso->iniciado);
+            break;
         case 6:
-            printf("\n Fin: ");
-            scanf("%d",&curso->iniciado);
+            printf("\n Finalizado: ");
+            scanf("%d",&curso->finalizado);
             break;
         default:
             printf(ANSI_COLOR_CYAN "\n Opción incorrecta..." ANSI_COLOR_RESET);
@@ -193,6 +195,6 @@ void mostrarCurso(CURSO curso){
     printf("| Nº Curso       : %d                                              |\n", curso.nCurso);
     printf("| Descripción (1): %s                   Plazas max (2): %d         |\n", curso.description,curso.plazasMax);
     printf("| Desde       (3): %d/%d/%d             Hasta      (4): %d/%d/%d   |\n", curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio);
-    printf("| Iniciado    (5): %s                   Finalizado (5): %s         |\n", iniciado,finalizado);
+    printf("| Iniciado    (5): %s                   Finalizado (6): %s         |\n", iniciado,finalizado);
     printf("+------------------------------------------------------------------+\n");
 }

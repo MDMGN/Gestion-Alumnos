@@ -44,13 +44,16 @@ void comenzarCurso(){
     if(comprobar(nCurso,last_nCurso)){
         fseek(pf_curso,sizeof(CURSO)*(nCurso -1),SEEK_SET);
         fread(&curso,sizeof(CURSO),1,pf_curso);
-        if(curso.iniciado==0){
+        if(!curso.iniciado){
             curso.iniciado=1;
+            curso.finalizado=0;
+            fseek(pf_curso,sizeof(CURSO)*(nCurso -1),SEEK_SET);
             fwrite(&curso,sizeof(CURSO),1,pf_curso);
+            if(informeAlumnosPorCurso(nCurso,pf_matricula,pf_alumn)) 
+                printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/matriculados.txt\n\n" ANSI_COLOR_RESET);
+        }else{
+            printf(ANSI_COLOR_RED "\n\nEl curso ya ha sido iniciado.\n\n" ANSI_COLOR_RESET);
         }
-        
-        if(informeAlumnosPorCurso(nCurso,pf_matricula,pf_alumn)) 
-            printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/matriculados.txt\n\n" ANSI_COLOR_RESET);
     }else{
         printf(ANSI_COLOR_RED "\n\nNª de cursos no valido.\n\n" ANSI_COLOR_RESET);
     }
@@ -121,17 +124,23 @@ void finalizarCurso(){
 
     pedirCurso(&nCurso,"");
     if(comprobar(nCurso,last_nCurso)){
+
         fseek(pf_curso,sizeof(CURSO)*(nCurso-1),SEEK_SET);
         fread(&curso,sizeof(CURSO),1,pf_curso);
-        mostrarCurso(curso);
-        system("pause");
-        curso.finalizado=1;
-        fwrite(&curso,sizeof(CURSO),1,pf_curso);
-        gestionarNotas(nCurso,pf_matricula,pf_alumn);
 
-        if(informeResumen(pf_matricula,pf_curso)) 
-            printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/resumenes.txt\n\n" ANSI_COLOR_RESET);
-        
+        if(curso.finalizado){
+            printf(ANSI_COLOR_RED "\n\n El curso ya ha sido finalizado.\n\n" ANSI_COLOR_RESET);
+        }else{
+            mostrarCurso(curso);
+            system("pause");
+            curso.finalizado=1;
+            fseek(pf_curso,sizeof(CURSO)*(nCurso-1),SEEK_SET);
+            fwrite(&curso,sizeof(CURSO),1,pf_curso);
+            gestionarNotas(nCurso,pf_matricula,pf_alumn);
+
+            if(informeResumen(pf_matricula,pf_curso)) 
+                printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/resumenes.txt\n\n" ANSI_COLOR_RESET);
+        }
     }else{
         printf(ANSI_COLOR_RED "\n\n Nº de curso no valido.\n\n" ANSI_COLOR_RESET);
     }
@@ -188,7 +197,7 @@ int informeResumen(FILE*pf_matriculas,FILE*pf_cursos){
         return 0;
     }
 
-    int nAlumnos=0;
+    int nAlumnos,encontrados,total=0;
     float avg_nota;
 
     fprintf(pf,"\n+--------------------------------------------------------------------+\n");
@@ -200,19 +209,23 @@ int informeResumen(FILE*pf_matriculas,FILE*pf_cursos){
     while (fread(&curso,sizeof(CURSO),1,pf_cursos)==1)
     {
         if(curso.finalizado){
-            avg_nota=0;
+            avg_nota=nAlumnos=encontrados=0;
             fseek(pf_matriculas,0,SEEK_SET);
-            while(fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1){
+            while(fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1 && !encontrados){
                 if(matricula.nCurso==curso.nCurso){
                     nAlumnos++;
                     avg_nota+=matricula.nota;
+                    if(curso.plazasMax==nAlumnos) encontrados=1;
                 }
             }
             avg_nota/=nAlumnos;
             fprintf(pf,"| %12d | %13s | %2d/%2d/%4d | %2d/%2d/%4d | %12d |%12.2f |\n",curso.nCurso,curso.description,curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio,nAlumnos,avg_nota);
             fprintf(pf,"+--------------------------------------------------------------------+\n");
+            total+=nAlumnos;
         }
     }
+    fprintf(pf,"| Totales: %-40d |\n",total);
+    fprintf(pf,"+--------------------------------------------------------------------+\n");
     fclose(pf);
     return 1;
 }
