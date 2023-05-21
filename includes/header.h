@@ -5,13 +5,14 @@
 #include <string.h>
 #include <windows.h>
 
-//Constantes
+//Ficheros
 #define RUTA_A "data/alumnos.dat"
-#define RUTA_AS "data/asignaturas.dat"
 #define RUTA_C "data/cursos.dat"
 #define RUTA_M "data/matricula.dat"
-#define RUTA_LISTA_AL "informes/alumnos.txt"
-#define RUTA_LISTA_RE "informes/resumenes.txt"
+#define RUTA_RE "data/resumenes.dat"
+#define RUTA_INFO_AL "informes/matriculados.txt"
+#define RUTA_INFO_RE "informes/resumenes.txt"
+#define RUTA_INFO_BO "informes/boletin.txt"
 
 //Colores
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -56,11 +57,13 @@ typedef struct{
 }MATRICULA;
 
 typedef struct{
-    int nMatricula;
     int nCurso;
-    int nExp;
-    float nota;
-}NOTA;
+    char description[20];
+    FECHA fInicio;
+    FECHA ffin;
+    int n_alumnos;
+    float media_curso;
+}RESUMEN;
 
 
 //Cabezeras de funciones
@@ -112,3 +115,4 @@ int informeAlumnosPorCurso(int,FILE*,FILE*);
 void gestionarNotas(int,FILE*,FILE*);
 int informeResumen(FILE*,FILE*);
 void pedirNota(float* nota);
+int informeBoletinAlumno(int,FILE*,FILE*,ALUMNO);
