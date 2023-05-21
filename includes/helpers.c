@@ -107,4 +107,18 @@ char *trim(char *s)
 {
     return rtrim(ltrim(s)); 
 }
+
+
+void recuadro(){
+    int i;
+    for(int i=xs; i <= xi; i++){
+        gotoXY(i, ys):printf("%c",196);
+        gotoXY(i, yi):printf("%c",196);
+    }
+
+    for(int i=ys; i <= yi; i++){
+        gotoXY(xs, i):printf("%c",179);
+        gotoXY(xi,i):printf("%c",179);
+    }
+}
 */
