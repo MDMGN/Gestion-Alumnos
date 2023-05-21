@@ -200,12 +200,12 @@ int informeResumen(FILE*pf_matriculas,FILE*pf_cursos){
 
     int nAlumnos,encontrados,total=0;
     float avg_nota;
-
-    fprintf(pf,"\n+--------------------------------------------------------------------+\n");
-    fprintf(pf,"| %-40s |\n","LISTADO RESUMEN DE CURSOS FINALIZADOS");
-    fprintf(pf,"+--------------------------------------------------------------------+\n");
-    fprintf(pf,"| %12s | %13s | %14s | %12s | %12s | %12s |\n","CURSO","DESCRIPCION","FECHA INICIO","FECHA FIN","Nº ALUMNOS","NOTA MEDIA");
-    fprintf(pf,"+--------------------------------------------------------------------+\n");
+    
+    fprintf(pf,"\n+----------------------------------------------------------------------------------------+\n");
+    fprintf(pf,"| %23s %38s %23s |\n","","LISTADO RESUMEN DE CURSOS FINALIZADOS","");
+    fprintf(pf,"+----------------------------------------------------------------------------------------+\n");
+    fprintf(pf,"| %5s | %-20s | %10s | %12s | %-13s | %-10s |\n","CURSO","DESCRIPCION","FECHA INICIO","FECHA FIN","Nº ALUMNOS","NOTA MEDIA");
+    fprintf(pf,"+----------------------------------------------------------------------------------------+\n");
     fseek(pf_cursos,0,SEEK_SET);
     while (fread(&curso,sizeof(CURSO),1,pf_cursos)==1)
     {
@@ -220,8 +220,8 @@ int informeResumen(FILE*pf_matriculas,FILE*pf_cursos){
                 }
             }
             avg_nota/=nAlumnos;
-            fprintf(pf,"| %12d | %13s | %2d/%2d/%4d | %2d/%2d/%4d | %12d |%12.2f |\n",curso.nCurso,curso.description,curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio,nAlumnos,avg_nota);
-            fprintf(pf,"+--------------------------------------------------------------------+\n");
+            fprintf(pf,"| %5d | %-20s | %3d/%3d/%4d | %3d/%3d/%4d | %12d | %10.2f |\n",curso.nCurso,curso.description,curso.fInicio.dia,curso.fInicio.mes,curso.fInicio.anio,curso.fFin.dia,curso.fFin.mes,curso.fFin.anio,nAlumnos,avg_nota);
+            fprintf(pf,"+----------------------------------------------------------------------------------------+\n");
             //Asignamos el valor a la estructura resumen.
             resumen.nCurso=curso.nCurso;
             strcpy(resumen.description,curso.description);
@@ -234,8 +234,8 @@ int informeResumen(FILE*pf_matriculas,FILE*pf_cursos){
             total+=nAlumnos;
         }
     }
-    fprintf(pf,"| Totales: %-40d |\n",total);
-    fprintf(pf,"+--------------------------------------------------------------------+\n");
+    fprintf(pf,"| %42s  | %12s | %12d | %10s |\n","","Totales",total,"");
+    fprintf(pf,"+----------------------------------------------------------------------------------------+\n");
     fclose(pf);
     fclose(pf_resumenes);
     return 1;
