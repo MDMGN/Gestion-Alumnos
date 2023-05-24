@@ -28,7 +28,7 @@ typedef struct{
     int nExped;
     char nombre[20];
     char domicilio[20];
-    char codPost[5];
+    char codPost[6];
     char municipio[15];
     char nif[11];
 }ALUMNO;
@@ -85,7 +85,7 @@ void mostrarAlumno(ALUMNO);
 void modificarAlumno();
 void editarAlumno(ALUMNO *);
 void pedirAlumno(int*,char*);
-
+void eliminarAlumno();
 /* Funciones para el submenu de cursos */
 void menuCurso();
 void altaCurso();
@@ -95,7 +95,7 @@ void editarCurso(CURSO*);
 void consultaCurso();
 void mostrarCurso(CURSO curso);
 void pedirCurso(int*,char*);
-
+void eliminarCurso();
 /*Funciones para el submenu de matricula*/
 
 void matriculaciones();

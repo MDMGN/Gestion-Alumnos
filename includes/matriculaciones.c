@@ -38,11 +38,11 @@ void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
     pedirCurso(&nCurso,"(0 para salir)");
     while(nCurso!=0){
         system("cls");
-        if(!comprobar(nCurso,last_nCurso)){
+        fseek(pf_curso,(nCurso-1)*sizeof(CURSO),SEEK_SET);
+        fread(&curso,sizeof(CURSO),1,pf_curso);
+        if(!comprobar(nCurso,last_nCurso) && curso.nCurso==0){
            printf(ANSI_COLOR_RED "\n\nNº curso incorrecto.\n\n" ANSI_COLOR_RESET);
         }else{
-            fseek(pf_curso,(nCurso-1)*sizeof(CURSO),SEEK_SET);
-            fread(&curso,sizeof(CURSO),1,pf_curso);
             if(!comprobarPlazas(nCurso,curso.plazasMax,pf_matricula)){
                     printf(ANSI_COLOR_RED "\n\nNo quedan plazas para este curso.\n\n" ANSI_COLOR_RESET);
             }else{

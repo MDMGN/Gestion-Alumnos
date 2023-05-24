@@ -1,11 +1,11 @@
 void menuCurso(){
     system("cls");
-    char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
-    void (*function[])()={altaCurso,modificarCurso,consultaCurso};
-    int opc=menu(menu_alummnos,4);
-    while(opc!=4){
+    char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. ELIMINAR","5. VOLVER."};
+    void (*function[])()={altaCurso,modificarCurso,consultaCurso,eliminarCurso};
+    int opc=menu(menu_alummnos,5);
+    while(opc!=5){
         (* function[opc-1])();
-        opc=menu(menu_alummnos,4);
+        opc=menu(menu_alummnos,5);
     }
     printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para volver..." ANSI_COLOR_RESET);
 }
@@ -79,7 +79,7 @@ void consultaCurso(){
     pf=fopen(RUTA_C,"rb");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf(ANSI_COLOR_RED "\nError: No se encuentra la carpeta data.\n\n." ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/curso.dat\n\n." ANSI_COLOR_RESET);
         fclose(pf);
         system("pause");
         return;
@@ -87,9 +87,9 @@ void consultaCurso(){
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
     //Pedir nº de curso.
     pedirCurso(&nCurs,"");
-    if(comprobar(nCurs,last_ncurs)){
-        fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
-	    fread(&curso, sizeof(curso), 1, pf);
+    fseek(pf,(nCurs-1)*sizeof(CURSO),SEEK_SET);
+    fread(&curso, sizeof(curso), 1, pf);
+    if(comprobar(nCurs,last_ncurs) && curso.nCurso!=0){
         mostrarCurso(curso);
         printf(ANSI_COLOR_GREEN "\n\nFichero cargado correctamente.\n\n" ANSI_COLOR_RESET);
     }else{
@@ -106,7 +106,7 @@ void modificarCurso(){
     pf=fopen(RUTA_C,"rb+");
     //Comprobamos si el fichero existe
     if(pf==NULL){
-        printf(ANSI_COLOR_RESET "\n\nEl fichero cursos.dat no existe.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RESET "\n\nError al intentar abrir el fichero data/curso.dat\n\n" ANSI_COLOR_RESET);
         fclose(pf);
         system("pause");
         return;
@@ -114,9 +114,9 @@ void modificarCurso(){
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
     //Pedir nº de curso.
     pedirCurso(&nCurs,"");
-    if(comprobar(nCurs,last_ncurs)){
-        fseek(pf, (nCurs-1) * sizeof(CURSO), SEEK_SET);
-	    fread(&curso, sizeof(curso), 1, pf);
+    fseek(pf, (nCurs-1) * sizeof(CURSO), SEEK_SET);
+	fread(&curso, sizeof(curso), 1, pf);
+    if(comprobar(nCurs,last_ncurs) && curso.nCurso!=0){
         do{
             mostrarCurso(curso);
             editarCurso(&curso);
@@ -126,7 +126,7 @@ void modificarCurso(){
         fseek(pf,(curso.nCurso-1)*sizeof(CURSO),SEEK_SET);
         fwrite(&curso,sizeof(CURSO),1,pf);
     }else{
-        printf(ANSI_COLOR_RED "\n\nNº de curso no valido." ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nNº de curso incorrecto." ANSI_COLOR_RESET);
     }
     printf("\n\n");
     fclose(pf);
@@ -143,7 +143,7 @@ void editarCurso(CURSO *curso){
     switch(resp){
         case 1:
             printf("\n Descripción: ");
-            fgets(curso->description,21,stdin);
+            fgets(curso->description,sizeof(curso->description),stdin);
             strtok(curso->description,"\n");
             break;
         case 2:
@@ -198,3 +198,42 @@ void mostrarCurso(CURSO curso){
     printf("| Iniciado    (5): %s                   Finalizado (6): %s         |\n", iniciado,finalizado);
     printf("+------------------------------------------------------------------+\n");
 }
+
+ void eliminarCurso(){
+    system("cls");
+    FILE *pf;
+    CURSO curso;
+    int nCurso,lastNCurso;
+    char resp;
+
+    pf=fopen(RUTA_C,"rb+");
+
+    if(pf==NULL){
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/curso.dat\n\n" ANSI_COLOR_RESET);
+        fclose(pf);
+        system("pause");
+        return;
+    }
+
+    lastNCurso=totalRegistro(pf,sizeof(CURSO));
+
+    pedirCurso(&nCurso,"");
+    fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET);
+    fread(&curso,sizeof(CURSO),1,pf);
+    if(comprobar(nCurso,lastNCurso) && curso.nCurso!=0){
+        mostrarCurso(curso);
+        printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RESET);
+        resp=_getche();
+        if(resp=='s'){
+            curso.nCurso=0;
+            fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET);
+            fwrite(&curso,sizeof(CURSO),1,pf);
+            printf(ANSI_COLOR_GREEN "\n\n Curso eliminado correctamente.\n\n" ANSI_COLOR_RESET);
+        }
+    }else{
+        printf(ANSI_COLOR_RED "\n\n Nº de curso incorrecto.\n\n" ANSI_COLOR_RESET);
+    }
+    fclose(pf);
+    printf("\n\n");
+    system("pause");
+ }

@@ -1,23 +1,23 @@
 //Introducimos los datos del alumno
 void introducirDatosAlumno(ALUMNO *alumno){
         gotoXY(18,4);
-        fgets(alumno->nombre,20,stdin);
+        fgets(alumno->nombre,sizeof(alumno->nombre),stdin);
         fflush(stdin);
         strtok(alumno->nombre,"\n");
         gotoXY(18,5);
-        fgets(alumno->domicilio,20,stdin);
+        fgets(alumno->domicilio,sizeof(alumno->domicilio),stdin);
         fflush(stdin);
         strtok(alumno->domicilio,"\n");
         gotoXY(18,6);
-        fgets(alumno->codPost,5,stdin);
+        fgets(alumno->codPost,sizeof(alumno->codPost),stdin);
         fflush(stdin);
         strtok(alumno->codPost,"\n");
         gotoXY(18,7);
-        fgets(alumno->municipio,15,stdin);
+        fgets(alumno->municipio,sizeof(alumno->municipio),stdin);
         fflush(stdin);
         strtok(alumno->municipio,"\n");
         gotoXY(18,8);
-        fgets(alumno->nif,10,stdin);
+        fgets(alumno->nif,sizeof(alumno->nif),stdin);
         fflush(stdin);
         strtok(alumno->nif,"\n");
 }
@@ -26,20 +26,22 @@ void introducirDatosAlumno(ALUMNO *alumno){
 void consultaAlumno(){
     system("cls");
     ALUMNO alumno;FILE *pf;int last_nexp, nExp;
+
     pf=fopen(RUTA_A,"rb+");
-    //Comprobamos si el fichero existe
+
     if(pf==NULL){
-        printf(ANSI_COLOR_RED "\nError: El fichero no existe.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir  el fichero data/alumnos.dat\n\n" ANSI_COLOR_RESET);
         fclose(pf);
         system("pause");
         return;
     }
+
     last_nexp=totalRegistro(pf,sizeof(ALUMNO));
     //Pedir nº de expediente.
     pedirAlumno(&nExp,"");
-    if(comprobar(nExp,last_nexp)){
-        fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
-	    fread(&alumno, sizeof(alumno), 1, pf);
+    fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
+	fread(&alumno, sizeof(alumno), 1, pf);
+    if(comprobar(nExp,last_nexp) && alumno.nExped!=0){
         mostrarAlumno(alumno);
         printf(ANSI_COLOR_GREEN "\n\nFichero cargado correctamente.\n\n" ANSI_COLOR_RESET);
     }else{
@@ -87,12 +89,12 @@ void editarAlumno(ALUMNO *alumno){
 
 void menuAlumno(){
     system("cls");
-    char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. VOLVER."};
-    void (*function[])()={altaAlumno,modificarAlumno,consultaAlumno};
-    int opc=menu(menu_alummnos,4);
-    while(opc!=4){
+    char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. ELIMINAR","5. VOLVER."};
+    void (*function[])()={altaAlumno,modificarAlumno,consultaAlumno,eliminarAlumno};
+    int opc=menu(menu_alummnos,5);
+    while(opc!=5){
         (* function[opc-1])();
-        opc=menu(menu_alummnos,4);
+        opc=menu(menu_alummnos,5);
     }
     printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para continuar..." ANSI_COLOR_RESET);
 }
@@ -102,8 +104,9 @@ void altaAlumno(){
     ALUMNO alumno;FILE *pf;char resp;
     //Abrimos o creamos el fichero de bits de en alumnos.dat
     pf=fopen(RUTA_A,"ab+");
+
     if(pf==NULL){
-        printf(ANSI_COLOR_RED "\n\nError al crear o abrir el fichero.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nError no se encuentra la carpeta data.\n\n" ANSI_COLOR_RESET);
         fclose(pf);
         system("pause");
         return;
@@ -141,32 +144,35 @@ void modificarAlumno(){
     system("cls");
     ALUMNO alumno;FILE *pf;int last_nexp, nExp;
     char resp;
+
     pf=fopen(RUTA_A,"rb+");
-    //Comprobamos si el fichero existe
+
     if(pf==NULL){
-        printf(ANSI_COLOR_RED "\nError: El fichero  alumnos.dat no existe.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/alumnos.dat\n\n" ANSI_COLOR_RESET);
         fclose(pf);
         system("pause");
         return;
     }
+
     last_nexp=totalRegistro(pf,sizeof(ALUMNO));
     //Pedir nº de expediente.
     pedirAlumno(&nExp,"");
-    if(comprobar(nExp,last_nexp)){
-        fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
-	    fread(&alumno, sizeof(alumno), 1, pf);
+    fseek(pf, (nExp-1) * sizeof(alumno), SEEK_SET);
+	fread(&alumno, sizeof(alumno), 1, pf);
+    if(comprobar(nExp,last_nexp) && alumno.nExped!=0){
         do{
             mostrarAlumno(alumno);
             editarAlumno(&alumno);
-            printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RED);
-            resp=tolower(_getche());
+            printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RESET);
+                resp=tolower(_getche());
         }while (resp=='s');
         fseek(pf,(alumno.nExped-1)*sizeof(alumno),SEEK_SET);
         fwrite(&alumno,sizeof(alumno),1,pf);
     }else{
-        printf(ANSI_COLOR_RED "\n\n Nº de expediente no valido.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\n Nº de expediente incorrecto.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf);
+    printf("\n\n");
     system("pause");
 }
 
@@ -191,4 +197,43 @@ void pedirAlumno(int* alumno,char* extra){
     printf("\nNº de Exped. %s: ",extra);
     scanf("%d",alumno);
     fflush(stdin);
+ }
+
+ void eliminarAlumno(){
+    system("cls");
+    FILE *pf;
+    ALUMNO alumno;
+    int nExp,lastNexp;
+    char resp;
+
+    pf=fopen(RUTA_A,"rb+");
+
+    if(pf==NULL){
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/alumnos.dat\n\n" ANSI_COLOR_RESET);
+        fclose(pf);
+        system("pause");
+        return;
+    }
+
+    lastNexp=totalRegistro(pf,sizeof(ALUMNO));
+
+    pedirAlumno(&nExp,"");
+    fseek(pf,sizeof(ALUMNO)*(nExp-1),SEEK_SET);
+    fread(&alumno,sizeof(ALUMNO),1,pf);
+    if(comprobar(nExp,lastNexp) && alumno.nExped!=0){
+        mostrarAlumno(alumno);
+        printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RESET);
+        resp=_getche();
+        if(resp=='s'){
+            alumno.nExped=0;
+            fseek(pf,sizeof(ALUMNO)*(nExp-1),SEEK_SET);
+            fwrite(&alumno,sizeof(ALUMNO),1,pf);
+            printf(ANSI_COLOR_GREEN "\n\n Alumno eliminado correctamente.\n\n" ANSI_COLOR_RESET);
+        }
+    }else{
+        printf(ANSI_COLOR_RED "\n\n Nº de expediente incorrecto.\n\n" ANSI_COLOR_RESET);
+    }
+    fclose(pf);
+    printf("\n\n");
+    system("pause");
  }
