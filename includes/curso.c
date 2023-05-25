@@ -51,23 +51,24 @@ void altaCurso(){
 void introducirDatosCurso(CURSO *curso){
     char date[11];
         gotoXY(18,4);
-        fgets(curso->description,20,stdin);
-        fflush(stdin);
-        strtok(curso->description,"\n");
+        obtenerDato(curso->description,20);
+
         gotoXY(46,4);
         scanf("%d",&curso->plazasMax);
         fflush(stdin);
+
         gotoXY(18,5);
-        fgets(date,11,stdin);
-        fflush(stdin);
+        obtenerDato(date,11);
         insertarFecha(date,&curso->fInicio);
+
         gotoXY(46,5);
-        fgets(date,11,stdin);
-        fflush(stdin);
+        obtenerDato(date,11);
         insertarFecha(date,&curso->fFin);
+
         gotoXY(18,6);
         scanf("%d",&curso->iniciado);
         fflush(stdin);
+        
         gotoXY(46,6);
         scanf("%d",&curso->finalizado);
         fflush(stdin);

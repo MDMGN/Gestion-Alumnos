@@ -54,30 +54,29 @@ void editarAlumno(ALUMNO *alumno){
     switch(resp){
         case 1:
             printf("\n Nombre: ");
-            fgets(alumno->nombre,21,stdin);
+            obtenerDato(alumno->nombre,20);
             break;
         case 2:
             printf("\n Domicilio: ");
-            fgets(alumno->domicilio,21,stdin);
+            obtenerDato(alumno->domicilio,20);
             break;
         case 3:
             printf("\n Código postal: ");
-            fgets(alumno->codPost,5,stdin);
+            obtenerDato(alumno->codPost,6);
             break;
         case 4:
             printf("\n Municipio: ");
-            fgets(alumno->municipio,16,stdin);
+            obtenerDato(alumno->municipio,15);
             break;
         case 5:
             printf("\n N.I.F: ");
-            fgets(alumno->nif,11,stdin);
+            obtenerDato(alumno->nif,11);
             break;
         default:
             printf(ANSI_COLOR_CYAN "\n\n Opción incorrecta..." ANSI_COLOR_RESET);
             success=0;
             break;
     }
-    fflush(stdin);
     if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
 
