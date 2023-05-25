@@ -40,10 +40,9 @@ void comenzarCurso(){
     //last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
 
     pedirCurso(&nCurso,"");
-
-    if(comprobar(nCurso,last_nCurso)){
-        fseek(pf_curso,sizeof(CURSO)*(nCurso -1),SEEK_SET);
-        fread(&curso,sizeof(CURSO),1,pf_curso);
+    fseek(pf_curso,sizeof(CURSO)*(nCurso -1),SEEK_SET);
+    fread(&curso,sizeof(CURSO),1,pf_curso);
+    if(comprobar(nCurso,last_nCurso) && curso.nCurso!=0){
         if(!curso.iniciado){
             curso.iniciado=1;
             curso.finalizado=0;
@@ -82,7 +81,7 @@ int informeAlumnosPorCurso(int nCurso,FILE*pf_matriculas,FILE*pf_alumnos){
     fprintf(pf,"+----------------------------------------+\n");
     while (fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1)
     {
-        if(matricula.nCurso==nCurso){
+        if(matricula.nCurso==nCurso && matricula.nMatricula!=0){
             fseek(pf_alumnos,sizeof(ALUMNO)*(matricula.nExp-1),SEEK_SET);
             fread(&alumno,sizeof(ALUMNO),1,pf_alumnos);
             fprintf(pf,"| %-17d | %-18s |\n",nCurso,alumno.nombre);
@@ -123,11 +122,9 @@ void finalizarCurso(){
     last_nCurso=totalRegistro(pf_curso,sizeof(CURSO));
 
     pedirCurso(&nCurso,"");
-    if(comprobar(nCurso,last_nCurso)){
-
-        fseek(pf_curso,sizeof(CURSO)*(nCurso-1),SEEK_SET);
-        fread(&curso,sizeof(CURSO),1,pf_curso);
-
+    fseek(pf_curso,sizeof(CURSO)*(nCurso-1),SEEK_SET);
+    fread(&curso,sizeof(CURSO),1,pf_curso);
+    if(comprobar(nCurso,last_nCurso) && curso.nCurso!=0){
         if(curso.finalizado){
             printf(ANSI_COLOR_RED "\n\n El curso ya ha sido finalizado.\n\n" ANSI_COLOR_RESET);
         }else{
@@ -142,7 +139,7 @@ void finalizarCurso(){
                 printf(ANSI_COLOR_GREEN "\n\nInforme generado en: informes/resumenes.txt\n\n" ANSI_COLOR_RESET);
         }
     }else{
-        printf(ANSI_COLOR_RED "\n\n Nº de curso no valido.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\n Nº de curso incorrecto.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf_alumn);
     fclose(pf_curso);
@@ -157,7 +154,7 @@ void gestionarNotas(int nCurso,FILE*pf_matriculas,FILE*pf_alumnos){
     while (fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1)
     {
             i++;
-        if(matricula.nCurso==nCurso){
+        if(matricula.nCurso==nCurso && matricula.nMatricula!=0){
             fseek(pf_alumnos,sizeof(ALUMNO)*(matricula.nExp-1),SEEK_SET);
             fread(&alumno,sizeof(ALUMNO),1,pf_alumnos);
             mostrarAlumno(alumno);
@@ -209,11 +206,11 @@ int informeResumen(FILE*pf_matriculas,FILE*pf_cursos){
     fseek(pf_cursos,0,SEEK_SET);
     while (fread(&curso,sizeof(CURSO),1,pf_cursos)==1)
     {
-        if(curso.finalizado){
+        if(curso.finalizado && curso.nCurso!=0){
             avg_nota=nAlumnos=encontrados=0;
             fseek(pf_matriculas,0,SEEK_SET);
             while(fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1 && !encontrados){
-                if(matricula.nCurso==curso.nCurso){
+                if(matricula.nCurso==curso.nCurso && matricula.nMatricula!=0){
                     nAlumnos++;
                     avg_nota+=matricula.nota;
                     if(curso.plazasMax==nAlumnos) encontrados=1;
@@ -270,16 +267,15 @@ void boletinAlumno(){
 
     last_nAlumn=totalRegistro(pf_alumnos,sizeof(ALUMNO));
     pedirAlumno(&nExp,"");
-
-    if(comprobar(nExp,last_nAlumn)){
-        fseek(pf_alumnos,sizeof(ALUMNO)*(nExp-1),SEEK_SET);
-        fread(&alumno,sizeof(ALUMNO),1,pf_alumnos);
+    fseek(pf_alumnos,sizeof(ALUMNO)*(nExp-1),SEEK_SET);
+    fread(&alumno,sizeof(ALUMNO),1,pf_alumnos);
+    if(comprobar(nExp,last_nAlumn) && alumno.nExped!=0){
         mostrarAlumno(alumno);
         system("pause");
         if(informeBoletinAlumno(nExp,pf_matriculas,pf_cursos,alumno))
             printf(ANSI_COLOR_GREEN "\n\nInforme generado en informes/boletin.txt\n\n" ANSI_COLOR_RESET);
     }else{
-        printf(ANSI_COLOR_RED "\n\nNº de alumno no valido.\n\n" ANSI_COLOR_RESET);
+        printf(ANSI_COLOR_RED "\n\nNº de alumno incorrecto.\n\n" ANSI_COLOR_RESET);
     }
     fclose(pf_alumnos);
     fclose(pf_cursos);
@@ -288,7 +284,7 @@ void boletinAlumno(){
 }
 
 int informeBoletinAlumno(int nExp,FILE* pf_matriculas,FILE* pf_cursos,ALUMNO alumno){
-    MATRICULA matricula;CURSO curso;
+    MATRICULA matricula;CURSO curso;FECHA fecha;
     FILE *pf=fopen(RUTA_INFO_BO,"w");
     float nota_media;int count;
     nota_media=count=0;
@@ -299,17 +295,18 @@ int informeBoletinAlumno(int nExp,FILE* pf_matriculas,FILE* pf_cursos,ALUMNO alu
         system("pause");
         return 0;
     }
-
+    
+    fecha=obtenerFechaActual();
     fprintf(pf,"\n+--------------------------------------------+\n");
     fprintf(pf,"| Nª Expediente: %2d  Nombre: %11s %3s |\n",alumno.nExped,alumno.nombre,"");
-    fprintf(pf,"| Fecha: %10s %-24s |\n","","");
+    fprintf(pf,"| Fecha: %2d/%2d/%2d %-24s |\n",fecha.dia,fecha.mes,fecha.anio,"");
     fprintf(pf,"+--------------------------------------------+\n");
     fprintf(pf,"| Nº CURSO |     Denominación     |   Nota   |\n");
     fprintf(pf,"+--------------------------------------------+\n");
 
     fseek(pf_matriculas,0,SEEK_SET);
     while(fread(&matricula,sizeof(MATRICULA),1,pf_matriculas)==1){
-        if(matricula.nExp==nExp){
+        if(matricula.nExp==nExp && matricula.nMatricula!=0){
             fseek(pf_cursos,sizeof(CURSO)*(matricula.nCurso-1),SEEK_SET);
             fread(&curso,sizeof(CURSO),1,pf_cursos);
             fprintf(pf,"| %8d | %20s | %8.2f |\n",curso.nCurso,curso.description,matricula.nota);

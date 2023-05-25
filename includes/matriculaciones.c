@@ -31,13 +31,12 @@ void matriculaciones(){
 void gestionarMatricula(FILE *pf_alumn,FILE *pf_curso,FILE *pf_matricula){
     CURSO curso;
     int last_nCurso,last_nAlumn, nCurso,nAlumno;
-
+    system("cls");
     
     last_nCurso=totalRegistro(pf_curso,sizeof(CURSO));
     last_nAlumn=totalRegistro(pf_alumn,sizeof(ALUMNO));
     pedirCurso(&nCurso,"(0 para salir)");
     while(nCurso!=0){
-        system("cls");
         fseek(pf_curso,(nCurso-1)*sizeof(CURSO),SEEK_SET);
         fread(&curso,sizeof(CURSO),1,pf_curso);
         if(!comprobar(nCurso,last_nCurso) && curso.nCurso==0){
@@ -68,7 +67,7 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
     fseek(pf_matricula,0,SEEK_SET);
     
     while(fread(&matricula,sizeof(MATRICULA),1,pf_matricula)==1){
-        if(matricula.nCurso==ncurso){
+        if(matricula.nCurso==ncurso && matricula.nMatricula!=0){
             matriculados++;
         }
     }
@@ -87,14 +86,14 @@ int comprobarPlazas(int ncurso,int maxPlazas,FILE *pf_matricula){
 
  void gestionarAlumno(FILE *pf_matricula,FILE *pf_alumn,int nAlumno,int nCurso,int last_nAlumn){
     ALUMNO alumno;MATRICULA matricula;
+    fseek(pf_alumn,sizeof(ALUMNO)*(nAlumno-1),SEEK_SET);
+    fread(&alumno,sizeof(ALUMNO),1,pf_alumn);
     char resp;int nMatricula;
-    if(!comprobar(nAlumno,last_nAlumn)){
+    if(!comprobar(nAlumno,last_nAlumn) && alumno.nExped==0){
             printf(ANSI_COLOR_RED "\n\nNº alumno incorrecto.\n\n" ANSI_COLOR_RESET);
     }else if(alumnoMatriculadoCurso(nCurso,nAlumno,pf_matricula)){
             printf(ANSI_COLOR_RED "\n\nEl alumno ya está matriculado en el curso.\n\n" ANSI_COLOR_RESET);
     }else{
-        fseek(pf_alumn,sizeof(ALUMNO)*(nAlumno-1),SEEK_SET);
-        fread(&alumno,sizeof(ALUMNO),1,pf_alumn);
         mostrarAlumno(alumno);
         printf(ANSI_COLOR_BLUE "\n\n¿Deseas matricularlo al curso? (s/?): " ANSI_COLOR_RESET);
         resp=tolower(_getche());

@@ -4,6 +4,8 @@
 #include <locale.h>
 #include <string.h>
 #include <windows.h>
+#include <stdlib.h>
+#include <time.h>
 
 //Ficheros
 #define RUTA_A "data/alumnos.dat"
@@ -75,6 +77,7 @@ int comprobar(int,int);
 int totalRegistro(FILE *,long);
 void insertarFecha(char date[],FECHA* fecha);
 void debugearInt(int);
+FECHA obtenerFechaActual();
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void mostrarMenu(char**,int);
@@ -86,6 +89,7 @@ void modificarAlumno();
 void editarAlumno(ALUMNO *);
 void pedirAlumno(int*,char*);
 void eliminarAlumno();
+int eliminarMatriculaAlumno(int);
 /* Funciones para el submenu de cursos */
 void menuCurso();
 void altaCurso();
@@ -96,6 +100,7 @@ void consultaCurso();
 void mostrarCurso(CURSO curso);
 void pedirCurso(int*,char*);
 void eliminarCurso();
+int eliminarMatriculaCurso(int);
 /*Funciones para el submenu de matricula*/
 
 void matriculaciones();

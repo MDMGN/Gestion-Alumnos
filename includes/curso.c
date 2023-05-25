@@ -228,7 +228,8 @@ void mostrarCurso(CURSO curso){
             curso.nCurso=0;
             fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET);
             fwrite(&curso,sizeof(CURSO),1,pf);
-            printf(ANSI_COLOR_GREEN "\n\n Curso eliminado correctamente.\n\n" ANSI_COLOR_RESET);
+            if(eliminarMatriculaCurso(nCurso))
+                printf(ANSI_COLOR_GREEN "\n\n Curso eliminado correctamente.\n\n" ANSI_COLOR_RESET);
         }
     }else{
         printf(ANSI_COLOR_RED "\n\n Nº de curso incorrecto.\n\n" ANSI_COLOR_RESET);
@@ -237,3 +238,24 @@ void mostrarCurso(CURSO curso){
     printf("\n\n");
     system("pause");
  }
+
+ int eliminarMatriculaCurso(int nCurso){
+    FILE*pf_matricula;
+    MATRICULA matricula;
+    pf_matricula=fopen(RUTA_M,"rb+");
+    fseek(pf_matricula,0,SEEK_SET);
+    if(pf_matricula==NULL){
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/matricula.dat\n\n" ANSI_COLOR_RESET);
+        fclose(pf_matricula);
+        return 0;
+    }
+    while(fread(&matricula,sizeof(MATRICULA),1,pf_matricula)==1){
+        if(matricula.nMatricula==nCurso){
+            matricula.nMatricula=0;
+            fseek(pf_matricula,sizeof(MATRICULA)*(matricula.nMatricula-1),SEEK_SET);
+            fwrite(&matricula,sizeof(MATRICULA),1,pf_matricula);
+        }
+    }
+    fclose(pf_matricula);
+    return 1;
+}

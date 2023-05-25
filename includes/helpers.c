@@ -88,6 +88,18 @@ void debugearInt(int n){
     _getch();
 }
 
+FECHA obtenerFechaActual(){
+    FECHA fecha;
+    time_t t;
+    t= time(NULL);
+    struct tm*t_fecha;
+    t_fecha=localtime(&t);
+    fecha.dia=t_fecha->tm_mday;
+    fecha.mes=t_fecha->tm_mon+1;
+    fecha.anio=t_fecha->tm_year+1900;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+    return fecha;
+}
+
 /*
 char *ltrim(char *s)
 {

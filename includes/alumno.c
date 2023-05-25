@@ -228,7 +228,8 @@ void pedirAlumno(int* alumno,char* extra){
             alumno.nExped=0;
             fseek(pf,sizeof(ALUMNO)*(nExp-1),SEEK_SET);
             fwrite(&alumno,sizeof(ALUMNO),1,pf);
-            printf(ANSI_COLOR_GREEN "\n\n Alumno eliminado correctamente.\n\n" ANSI_COLOR_RESET);
+            if(eliminarMatriculaAlumno(nExp))
+                printf(ANSI_COLOR_GREEN "\n\n Alumno eliminado correctamente.\n\n" ANSI_COLOR_RESET);
         }
     }else{
         printf(ANSI_COLOR_RED "\n\n Nº de expediente incorrecto.\n\n" ANSI_COLOR_RESET);
@@ -237,3 +238,25 @@ void pedirAlumno(int* alumno,char* extra){
     printf("\n\n");
     system("pause");
  }
+
+int eliminarMatriculaAlumno(int nExp){
+    FILE*pf_matricula;
+    MATRICULA matricula;
+    pf_matricula=fopen(RUTA_M,"rb+");
+    fseek(pf_matricula,0,SEEK_SET);
+    if(pf_matricula==NULL){
+        printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/matricula.dat\n\n" ANSI_COLOR_RESET);
+        fclose(pf_matricula);
+        return 0;
+    }
+    while(fread(&matricula,sizeof(MATRICULA),1,pf_matricula)==1){
+        if(matricula.nExp==nExp){
+            matricula.nMatricula=0;
+            fseek(pf_matricula,sizeof(MATRICULA)*(matricula.nMatricula-1),SEEK_SET);
+            fwrite(&matricula,sizeof(MATRICULA),1,pf_matricula);
+            break;
+        }
+    }
+    fclose(pf_matricula);
+    return 1;
+}
