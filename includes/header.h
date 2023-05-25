@@ -78,6 +78,7 @@ int totalRegistro(FILE *,long);
 void insertarFecha(char date[],FECHA* fecha);
 void debugearInt(int);
 FECHA obtenerFechaActual();
+int validarFecha(FECHA);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void mostrarMenu(char**,int);

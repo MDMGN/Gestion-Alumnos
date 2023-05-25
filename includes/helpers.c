@@ -100,6 +100,35 @@ FECHA obtenerFechaActual(){
     return fecha;
 }
 
+int validarFecha(FECHA fecha){
+    if ( fecha.mes >= 1 && fecha.mes <= 12 )
+    {
+        switch ( fecha.mes )
+        {
+            case  1 :
+            case  3 :
+            case  5 :
+            case  7 :
+            case  8 :
+            case 10 :
+            case 12 : 
+                        return ( fecha.dia >= 1 && fecha.dia <= 31 );
+            case  4 :
+            case  6 :
+            case  9 :
+            case 11 :
+                        return ( fecha.dia >= 1 && fecha.dia <= 30 );
+            case  2 : 
+                        if( fecha.anio % 4 == 0 && fecha.anio % 100 != 0 || fecha.anio % 400 == 0 )
+                                return ( fecha.dia >= 1 && fecha.dia <= 29 );
+                        else
+                                return ( fecha.dia >= 1 && fecha.dia <= 28 );
+        }
+    }
+    else
+        return 0;
+}
+
 /*
 char *ltrim(char *s)
 {
