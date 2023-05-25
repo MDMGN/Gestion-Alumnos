@@ -143,11 +143,11 @@ char *trim(char *s){
     return rtrim(ltrim(s)); 
 }
 
-void obtenerDato(char* dato){
-    fgets(dato,sizeof(dato),stdin);
+void obtenerDato(char* dato, int tam){
+    fgets(dato,tam,stdin);
     strtok(dato,"\n");
     strcpy(dato,trim(dato));
-    flush(stdin);
+    fflush(stdin);
 }
 /*
 void recuadro(){

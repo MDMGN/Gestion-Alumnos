@@ -83,7 +83,7 @@ void insertarFecha(char date[],FECHA* fecha);
 void debugearInt(int);
 FECHA obtenerFechaActual();
 int validarFecha(FECHA);
-void obtenerDato(char*);
+void obtenerDato(char*,int);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void mostrarMenu(char**,int);

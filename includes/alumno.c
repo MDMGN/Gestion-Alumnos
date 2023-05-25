@@ -1,22 +1,19 @@
 //Introducimos los datos del alumno
 void introducirDatosAlumno(ALUMNO *alumno){
         gotoXY(18,4);
-        obtenerDato(alumno->nombre);
+        obtenerDato(alumno->nombre,20);
 
         gotoXY(18,5);
-        obtenerDato(alumno->domicilio);
+        obtenerDato(alumno->domicilio,20);
 
         gotoXY(18,6);
-        obtenerDato(alumno->codPost);
+        obtenerDato(alumno->codPost,6);
 
         gotoXY(18,7);
-        obtenerDato(alumno->municipio);
+        obtenerDato(alumno->municipio,15);
 
         gotoXY(18,8);
-        obtenerDato(alumno->codPost);
-
-        gotoXY(18,9);
-        obtenerDato(alumno->nif);
+        obtenerDato(alumno->nif,11);
 }
 
 //Consultamos la información del alumno
