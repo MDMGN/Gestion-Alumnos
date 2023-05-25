@@ -1,25 +1,22 @@
 //Introducimos los datos del alumno
 void introducirDatosAlumno(ALUMNO *alumno){
         gotoXY(18,4);
-        fgets(alumno->nombre,sizeof(alumno->nombre),stdin);
-        fflush(stdin);
-        strtok(alumno->nombre,"\n");
+        obtenerDato(alumno->nombre);
+
         gotoXY(18,5);
-        fgets(alumno->domicilio,sizeof(alumno->domicilio),stdin);
-        fflush(stdin);
-        strtok(alumno->domicilio,"\n");
+        obtenerDato(alumno->domicilio);
+
         gotoXY(18,6);
-        fgets(alumno->codPost,sizeof(alumno->codPost),stdin);
-        fflush(stdin);
-        strtok(alumno->codPost,"\n");
+        obtenerDato(alumno->codPost);
+
         gotoXY(18,7);
-        fgets(alumno->municipio,sizeof(alumno->municipio),stdin);
-        fflush(stdin);
-        strtok(alumno->municipio,"\n");
+        obtenerDato(alumno->municipio);
+
         gotoXY(18,8);
-        fgets(alumno->nif,sizeof(alumno->nif),stdin);
-        fflush(stdin);
-        strtok(alumno->nif,"\n");
+        obtenerDato(alumno->codPost);
+
+        gotoXY(18,9);
+        obtenerDato(alumno->nif);
 }
 
 //Consultamos la información del alumno

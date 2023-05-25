@@ -101,10 +101,8 @@ FECHA obtenerFechaActual(){
 }
 
 int validarFecha(FECHA fecha){
-    if ( fecha.mes >= 1 && fecha.mes <= 12 )
-    {
-        switch ( fecha.mes )
-        {
+    if ( fecha.mes >= 1 && fecha.mes <= 12 ){
+        switch ( fecha.mes ){
             case  1 :
             case  3 :
             case  5 :
@@ -129,27 +127,29 @@ int validarFecha(FECHA fecha){
         return 0;
 }
 
-/*
-char *ltrim(char *s)
-{
+char *ltrim(char *s){
     while(isspace(*s)) s++;
     return s;
 }
 
-char *rtrim(char *s)
-{
+char *rtrim(char *s){
     char* back = s + strlen(s);
     while(isspace(*--back));
     *(back+1) = '\0';
     return s;
 }
 
-char *trim(char *s)
-{
+char *trim(char *s){
     return rtrim(ltrim(s)); 
 }
 
-
+void obtenerDato(char* dato){
+    fgets(dato,sizeof(dato),stdin);
+    strtok(dato,"\n");
+    strcpy(dato,trim(dato));
+    flush(stdin);
+}
+/*
 void recuadro(){
     int i;
     for(int i=xs; i <= xi; i++){

@@ -71,6 +71,10 @@ typedef struct{
 //Cabezeras de funciones
 
 /* Funciones auxiliares */
+
+char *ltrim(char *);
+char *rtrim(char *);
+char *trim(char *);
 void gotoXY(int,int);
 int menu(char **,int);
 int comprobar(int,int);
@@ -79,6 +83,7 @@ void insertarFecha(char date[],FECHA* fecha);
 void debugearInt(int);
 FECHA obtenerFechaActual();
 int validarFecha(FECHA);
+void obtenerDato(char*);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void mostrarMenu(char**,int);
