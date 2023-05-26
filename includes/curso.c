@@ -29,9 +29,10 @@ void altaCurso(){
     printf("| Nº Curso      : %-39d|\n", curso.nCurso);
     printf("| Descripción   : %-15s Plazas max: %-11s|\n", "","");
     printf("| Desde         : %-15s Hasta     : %-11s|\n", "","");
-    printf("| Iniciado      : %-15s Finalizado: %-11s|\n", "","");
     printf("+--------------------------------------------------------+\n");
     introducirDatosCurso(&curso);
+    curso.iniciado=0;
+    curso.finalizado=0;
     //Pedimos conformidad para guardar el registro
     printf(ANSI_COLOR_BLUE "\n¿Desea guardar el registro? (s/?): " ANSI_COLOR_RESET);
     resp=tolower(_getche());
@@ -56,22 +57,34 @@ void introducirDatosCurso(CURSO *curso){
         gotoXY(46,4);
         scanf("%d",&curso->plazasMax);
         fflush(stdin);
-
+        
         gotoXY(18,5);
         obtenerDato(date,11);
         insertarFecha(date,&curso->fInicio);
+
+        while(!validarFecha(curso->fInicio)){
+            gotoXY(18,9);
+            printf(ANSI_COLOR_RED "\n\nIntroduzca una fecha correcta (dd/mm/aaaa).\n\n" ANSI_COLOR_RESET);
+            gotoXY(18,5);
+            obtenerDato(date,11);
+            insertarFecha(date,&curso->fInicio);
+        }
+        gotoXY(18,9);
+        printf("                                                                                     ");
 
         gotoXY(46,5);
         obtenerDato(date,11);
         insertarFecha(date,&curso->fFin);
 
-        gotoXY(18,6);
-        scanf("%d",&curso->iniciado);
-        fflush(stdin);
-        
-        gotoXY(46,6);
-        scanf("%d",&curso->finalizado);
-        fflush(stdin);
+        while(!validarFecha(curso->fFin)){
+            gotoXY(18,9);
+            printf(ANSI_COLOR_RED "\n\nIntroduzca una fecha correcta (dd/mm/aaaa).\n\n" ANSI_COLOR_RESET);
+            gotoXY(46,5);
+            obtenerDato(date,11);
+            insertarFecha(date,&curso->fFin);
+        }
+        gotoXY(18,9);
+        printf("                                                                                     ");
 }
 
 void consultaCurso(){

@@ -17,6 +17,7 @@
 #define RUTA_INFO_BO "informes/boletin.txt"
 
 //Colores
+/*https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797*/
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
@@ -77,6 +78,7 @@ char *rtrim(char *);
 char *trim(char *);
 void gotoXY(int,int);
 int menu(char **,int);
+void mostrarMenu(char**,int);
 int comprobar(int,int);
 int totalRegistro(FILE *,long);
 void insertarFecha(char date[],FECHA* fecha);
@@ -84,9 +86,9 @@ void debugearInt(int);
 FECHA obtenerFechaActual();
 int validarFecha(FECHA);
 void obtenerDato(char*,int);
+//void recuadro(int xs,int xi,int ys,int yi);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
-void mostrarMenu(char**,int);
 void altaAlumno();
 void consultaAlumno();
 void introducirDatosAlumno(ALUMNO *);
