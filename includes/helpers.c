@@ -186,6 +186,3 @@ void mostrarMenu(char* menu[], int limit, char* titulo) {
 
     printf("\n");
 }
-   
-
-
