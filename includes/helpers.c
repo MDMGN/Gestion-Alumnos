@@ -65,9 +65,9 @@ FECHA obtenerFechaActual() {
     return fecha;                       // Devolvemos la fecha obtenida
 }
 
-//Función para validar fecha desde el año 1990 en adelante
+
 int validarFecha(FECHA fecha) {
-    if (fecha.mes >= 1 && fecha.mes <= 12 && fecha.anio >= 1990) {
+    if (fecha.mes >= 1 && fecha.mes <= 12 && fecha.anio >= 1900) {
         // Verificar el rango de meses y el año mínimo
 
         switch (fecha.mes) {
@@ -98,7 +98,7 @@ int validarFecha(FECHA fecha) {
                     return (fecha.dia >= 1 && fecha.dia <= 28);
         }
     } else {
-        // Si el mes está fuera del rango (1-12) o el año es menor a 1990, la fecha es inválida
+        // Si el mes está fuera del rango (1-12) o el año es menor a 1900, la fecha es inválida
         return 0;
     }
 }
@@ -136,29 +136,19 @@ void obtenerDato(char* dato, int tam) {
 // Función para dibujar un recuadro con bordes en la consola
 void recuadro(int xs, int ys, int xi, int yi) {
     for (int i = xs; i <= xi; i++) {
-        gotoXY(i, ys);
-        printf("\u2500"); // Borde horizontal
-        gotoXY(i, yi);
-        printf("\u2500"); // Borde horizontal
+        gotoXY(i,ys);printf("\u2500"); // Borde horizontal
+        gotoXY(i,yi);printf("\u2500"); // Borde horizontal
     }
 
     for (int i = ys; i <= yi; i++) {
-        gotoXY(xs, i);
-        printf("\u2502\n"); // Borde vertical
-        gotoXY(xi, i);
-        printf("\u2502\n"); // Borde vertical
+        gotoXY(xs,i);printf("\u2502\n"); // Borde vertical
+        gotoXY(xi,i);printf("\u2502\n"); // Borde vertical
     }
-
-    gotoXY(xs, ys);
-    printf("\u2554"); // Esquina superior izquierda
-    gotoXY(xi, yi);
-    printf("\u255D\n"); // Esquina inferior derecha
-    gotoXY(xi, ys);
-    printf("\u2557"); // Esquina superior derecha
-    gotoXY(xs, yi);
-    printf("\u255A\n"); // Esquina inferior izquierda
+    gotoXY(xs,ys);printf("\u2554"); // Esquina superior izquierda
+    gotoXY(xi,yi);printf("\u255D\n"); // Esquina inferior derecha
+    gotoXY(xi,ys);printf("\u2557"); // Esquina superior derecha
+    gotoXY(xs,yi);printf("\u255A\n"); // Esquina inferior izquierda
 }
-
 // Función para mostrar un menú con título y opciones
 void mostrarMenu(char* menu[], int limit, char* titulo) {
     int i, menuWidth = 20;
@@ -185,16 +175,17 @@ void mostrarMenu(char* menu[], int limit, char* titulo) {
 
     // Imprimir el menú con bordes
     recuadro(xs, ys, xi, yi);
-
+    gotoXY(xs,ys);
     // Imprimir el título del menú centrado
     int espacioTitulo = (totalWidth - tituloWidth) / 2; // Espacio en blanco necesario para centrar el título
-    gotoXY(xs + 1, ys);
     printf("\n\u2502%*s%s%*s\n\n", espacioTitulo, "", titulo, espacioTitulo, "");
 
     for (i = 0; i < limit; i++) {
-        gotoXY(xs + 1, ys + 1 + i);
         printf("\u2502 %-*s \n", menuWidth, menu[i]);
     }
 
     printf("\n");
 }
+   
+
+
