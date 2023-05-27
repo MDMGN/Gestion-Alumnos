@@ -7,50 +7,12 @@ void gotoXY(int x,int y){
     SetConsoleCursorPosition(h,pos);
 }
 
-//Imprime la pantalla del menú principal del programa
-
-void mostrarMenu(char*menu[30],int limit){
-int i, menuWidth = 20;    
-    // Obtener la longitud máxima de cadena para ajustar el ancho del menú
-    for (i = 0; i < limit; i++) {
-        int len = strlen(menu[i]);
-        if (len > menuWidth) {
-            menuWidth = len;
-        }
-    }
-    
-    // Imprimir el menú con bordes
-    printf("+");
-    for(i = 0; i < menuWidth + 3; i++) {
-        printf("-");
-    }
-    printf("+\n");
-    
-    printf("|%*sMENU PRINCIPAL%*s|\n", (menuWidth - 2) / 3, "", (menuWidth - 2) / 4, "");
-    
-    printf("+");
-    for(i = 0; i < menuWidth + 3; i++) {
-        printf("-");
-    }
-    printf("+\n");
-    
-    for (i = 0; i < limit; i++) {
-        printf("| %-*s  |\n", menuWidth, menu[i]);
-    }
-    
-    printf("+");
-    for(i = 0; i < menuWidth + 3; i++) {
-        printf("-");
-    }
-    printf("+\n");
-}
-
 // Retorna un entero del 1 al 5 de la opción introducida por el usuario.
-int menu(char* menu[30],int limit){
+int menu(char* menu[30],int limit,char * titulo){
     int opc;
     do{
         system("cls");
-        mostrarMenu(menu,limit); 
+        mostrarMenu(menu,limit,titulo); 
         printf("\nIntroduzca una opción: ",limit);
         scanf("%d",&opc); // Obtenemos la opción introducida por el usuario.
         rewind(stdin); //  Limpiar lo almacenado en el buffer.
@@ -101,7 +63,7 @@ FECHA obtenerFechaActual(){
 }
 
 int validarFecha(FECHA fecha){
-    if ( fecha.mes >= 1 && fecha.mes <= 12 ){
+    if ( fecha.mes >= 1 && fecha.mes <= 12 && fecha.anio >= 1900){
         switch ( fecha.mes ){
             case  1 :
             case  3 :
@@ -150,15 +112,58 @@ void obtenerDato(char* dato, int tam){
     fflush(stdin);
 }
 
-/* void recuadro(int xs,int xi,int ys,int yi){
-    int i;
-    for(int i=xs; i <= xi; i++){
-        gotoXY(i, ys);printf("%c",196);
-        gotoXY(i, yi);printf("%c",196);
+void recuadro(int xs, int ys, int xi, int yi) {
+    for (int i = xs; i <= xi; i++) {
+        gotoXY(i,ys);printf("\u2500"); // Borde horizontal
+        gotoXY(i,yi);printf("\u2500"); // Borde horizontal
     }
 
-    for(int i=ys; i <= yi; i++){
-        gotoXY(xs, i);printf("%c",179);
-        gotoXY(xi,i);printf("%c",179);
+    for (int i = ys; i <= yi; i++) {
+        gotoXY(xs,i);printf("\u2502\n"); // Borde vertical
+        gotoXY(xi,i);printf("\u2502\n"); // Borde vertical
     }
-} */
+    gotoXY(xs,ys);printf("\u2554"); // Esquina superior izquierda
+    gotoXY(xi,yi);printf("\u255D\n"); // Esquina inferior derecha
+    gotoXY(xi,ys);printf("\u2557"); // Esquina superior derecha
+    gotoXY(xs,yi);printf("\u255A\n"); // Esquina inferior izquierda
+}
+
+void mostrarMenu(char* menu[], int limit, char* titulo) {
+    int i, menuWidth = 20;
+
+    // Obtener la longitud máxima de cadena para ajustar el ancho del menú
+    for (i = 0; i < limit; i++) {
+        int len = strlen(menu[i]);
+        if (len > menuWidth) {
+            menuWidth = len;
+        }
+    }
+
+    // Calcular el ancho del título
+    int tituloWidth = strlen(titulo);
+
+    // Calcular el ancho total del menú
+    int totalWidth = menuWidth + 4; // Ancho del contenido del menú + 2 caracteres de espacio en cada lado
+
+    // Calcular las coordenadas del recuadro del menú
+    int xs = 0;
+    int ys = 1; // Incrementamos en 1 para dejar espacio para el título
+    int xi = totalWidth + 1; // Aumentamos en 1 para alinear correctamente la esquina inferior derecha
+    int yi = limit + limit; // Aumentamos en limit para el espacio adicional entre el contenido y el borde inferior
+
+    // Imprimir el menú con bordes
+    recuadro(xs, ys, xi, yi);
+    gotoXY(xs,ys);
+    // Imprimir el título del menú centrado
+    int espacioTitulo = (totalWidth - tituloWidth) / 2; // Espacio en blanco necesario para centrar el título
+    printf("\n\u2502%*s%s%*s\n\n", espacioTitulo, "", titulo, espacioTitulo, "");
+
+    for (i = 0; i < limit; i++) {
+        printf("\u2502 %-*s \n", menuWidth, menu[i]);
+    }
+
+    printf("\n");
+}
+   
+
+

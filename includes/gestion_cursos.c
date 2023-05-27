@@ -2,10 +2,10 @@ void gestionCursos(){
     system("cls");
     char * menu_gestion_cursos[30]={"1. COMENZAR CURSO.","2. FINALIZAR CURSO.","3. BOLETIN ALUMNO.","4. VOLVER."};
     void (*function[])()={comenzarCurso,finalizarCurso,boletinAlumno};
-    int opc=menu(menu_gestion_cursos,4);
+    int opc=menu(menu_gestion_cursos,4,"MENU GESTIÓN DE CURSOS");
     while(opc!=4){
         (* function[opc-1])();
-        opc=menu(menu_gestion_cursos,4);
+        opc=menu(menu_gestion_cursos,4,"MENU GESTIÓN DE CURSOS");
     }
     printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para volver..." ANSI_COLOR_RESET);
 }

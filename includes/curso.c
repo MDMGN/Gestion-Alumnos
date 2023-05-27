@@ -2,10 +2,10 @@ void menuCurso(){
     system("cls");
     char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. ELIMINAR","5. VOLVER."};
     void (*function[])()={altaCurso,modificarCurso,consultaCurso,eliminarCurso};
-    int opc=menu(menu_alummnos,5);
+    int opc=menu(menu_alummnos,5,"MENU CURSOS");
     while(opc!=5){
         (* function[opc-1])();
-        opc=menu(menu_alummnos,5);
+        opc=menu(menu_alummnos,5,"MENU CURSOS");
     }
     printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para volver..." ANSI_COLOR_RESET);
 }
@@ -69,7 +69,7 @@ void introducirDatosCurso(CURSO *curso){
             obtenerDato(date,11);
             insertarFecha(date,&curso->fInicio);
         }
-        gotoXY(18,9);
+        gotoXY(0,11);
         printf("                                                                                     ");
 
         gotoXY(46,5);
@@ -83,7 +83,7 @@ void introducirDatosCurso(CURSO *curso){
             obtenerDato(date,11);
             insertarFecha(date,&curso->fFin);
         }
-        gotoXY(18,9);
+        gotoXY(0,11);
         printf("                                                                                     ");
 }
 

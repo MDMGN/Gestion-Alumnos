@@ -9,13 +9,16 @@ int main(){
     system("chcp 65001");
     system("mode con: cols=80 lines=25");
     //system("color 7");
+    system("cls");
+    printf("%c",218);
+    getch();
     void (* function[])()={menuAlumno,menuCurso,matriculaciones,gestionCursos};
     char *menuPrincipal[30]={"1. ALUMNOS.","2. CURSOS.","3. MATRICULACIONES.","4. GESTIÓN DE CURSOS.","5. SALIR."};
-    int opc=menu(menuPrincipal,5);
+    int opc=menu(menuPrincipal,5,"MENU PRINCIPAL");
     //Mostramos el menú hasta que el usuario elija la opción salir (5)
     while(opc!=5){
         (* function[opc-1])();
-        opc=menu(menuPrincipal,5);
+        opc=menu(menuPrincipal,5,"MENU PRINCIPAL");
     }
     system("pause");
     return 0;

@@ -84,10 +84,10 @@ void menuAlumno(){
     system("cls");
     char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. ELIMINAR","5. VOLVER."};
     void (*function[])()={altaAlumno,modificarAlumno,consultaAlumno,eliminarAlumno};
-    int opc=menu(menu_alummnos,5);
+    int opc=menu(menu_alummnos,5,"MENU ALUMNOS");
     while(opc!=5){
         (* function[opc-1])();
-        opc=menu(menu_alummnos,5);
+        opc=menu(menu_alummnos,5,"MENU ALUMNOS");
     }
     printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para continuar..." ANSI_COLOR_RESET);
 }
