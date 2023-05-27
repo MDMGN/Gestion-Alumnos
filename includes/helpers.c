@@ -65,9 +65,9 @@ FECHA obtenerFechaActual() {
     return fecha;                       // Devolvemos la fecha obtenida
 }
 
-
+//Función para validar la fecha apartir del año 1990
 int validarFecha(FECHA fecha) {
-    if (fecha.mes >= 1 && fecha.mes <= 12 && fecha.anio >= 1900) {
+    if (fecha.mes >= 1 && fecha.mes <= 12 && fecha.anio >= 1990) {
         // Verificar el rango de meses y el año mínimo
 
         switch (fecha.mes) {
@@ -98,7 +98,7 @@ int validarFecha(FECHA fecha) {
                     return (fecha.dia >= 1 && fecha.dia <= 28);
         }
     } else {
-        // Si el mes está fuera del rango (1-12) o el año es menor a 1900, la fecha es inválida
+        // Si el mes está fuera del rango (1-12) o el año es menor a 1990, la fecha es inválida
         return 0;
     }
 }
