@@ -80,16 +80,26 @@ void editarAlumno(ALUMNO *alumno){
     if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
 
-void menuAlumno(){
-    system("cls");
-    char * menu_alummnos[30]={"1. ALTA.","2. MODIFICACIÓN.","3. CONSULTA.","4. ELIMINAR","5. VOLVER."};
-    void (*function[])()={altaAlumno,modificarAlumno,consultaAlumno,eliminarAlumno};
-    int opc=menu(menu_alummnos,5,"MENU ALUMNOS");
-    while(opc!=5){
-        (* function[opc-1])();
-        opc=menu(menu_alummnos,5,"MENU ALUMNOS");
+void menuAlumno() {
+    system("cls");  // Limpia la pantalla de la consola
+
+    // Definición de las opciones del menú de alumnos
+    char *menu_alumnos[30] = {"1. ALTA.", "2. MODIFICACIÓN.", "3. CONSULTA.", "4. ELIMINAR", "5. VOLVER."};
+
+    // Definición de un arreglo de punteros a funciones para las opciones del menú
+    void (*function[])() = {altaAlumno, modificarAlumno, consultaAlumno, eliminarAlumno};
+
+    // Mostrar el menú de alumnos y obtener la opción seleccionada por el usuario
+    int opc = menu(menu_alumnos, 5, "MENU ALUMNOS");
+
+    // Ejecutar la opción seleccionada hasta que el usuario elija "VOLVER" (opción 5)
+    while (opc != 5) {
+        (*function[opc - 1])();  // Llamar a la función correspondiente según la opción seleccionada
+        opc = menu(menu_alumnos, 5, "MENU ALUMNOS");  // Mostrar nuevamente el menú y obtener una nueva opción
     }
+
     printf(ANSI_COLOR_MAGENTA "\n\nPresionar una tecla para continuar..." ANSI_COLOR_RESET);
+    // Mostrar un mensaje en magenta y esperar a que el usuario presione una tecla para continuar
 }
 
 void altaAlumno(){
