@@ -181,8 +181,7 @@ void editarCurso(CURSO *curso){
     switch(resp){
         case 1:
             printf("\n Descripción: ");
-            fgets(curso->description,sizeof(curso->description),stdin);
-            strtok(curso->description,"\n");
+            obtenerDato(curso->description,sizeof(curso->description));
             break;
         case 2:
             printf("\n Plazas max: ");
@@ -190,12 +189,12 @@ void editarCurso(CURSO *curso){
             break;
         case 3:
             printf("\n Desde: ");
-            fgets(date,11,stdin);
+            obtenerDato(date,11);
             insertarFecha(date,&curso->fInicio);
             break;
         case 4:
             printf("\n Hasta: ");
-            fgets(date,11,stdin);
+            obtenerDato(date,11);
             insertarFecha(date,&curso->fFin);
             break;
         case 5:
@@ -215,12 +214,7 @@ void editarCurso(CURSO *curso){
     if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
 
-void pedirCurso(int* curso,char* extra){
-    system("cls");
-    printf("\nNº de curso %s: ",extra);
-    scanf("%d",curso);
-    fflush(stdin);
- }
+c
 
 void mostrarCurso(CURSO curso){
     system("cls");
