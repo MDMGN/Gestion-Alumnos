@@ -1,5 +1,3 @@
-#include "header.h"
-
 //Establece la posición del cursor x, y en la consola.
 void gotoXY(int x, int y) {
     COORD pos;  // Estructura COORD para almacenar las coordenadas

@@ -1,5 +1,3 @@
-#include "header.h"
-
 void gestionCursos(){
     system("cls"); // Limpiar la pantalla
     // Opciones del menú de gestión de cursos

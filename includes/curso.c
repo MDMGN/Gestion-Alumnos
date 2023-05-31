@@ -1,5 +1,3 @@
-#include "header.h"
-
 void menuCurso(){
     system("cls");
     // Array de opciones del menú de cursos

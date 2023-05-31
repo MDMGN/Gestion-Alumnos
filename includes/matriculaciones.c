@@ -1,5 +1,3 @@
-#include "header.h"
-
 void matriculaciones(){
     system("cls");
     FILE *pf_alumn,*pf_curso,*pf_matricula;
