@@ -105,7 +105,7 @@ int comprobarPlazas(int ncurso, int maxPlazas, FILE *pf_matricula){
     }else{
         mostrarAlumno(alumno); // Mostrar los datos del alumno
         printf(ANSI_COLOR_BLUE "\n\n¿Deseas matricularlo al curso? (s/?): " ANSI_COLOR_RESET);
-        resp = tolower(_getche());
+        resp = tolower(_getch());
 
         if(resp == 's'){
             nMatricula = totalRegistro(pf_matricula, sizeof(MATRICULA)) + 1;
