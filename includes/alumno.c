@@ -1,3 +1,5 @@
+#include "header.h"
+
 // Introducimos los datos del alumno
 void introducirDatosAlumno(ALUMNO *alumno){
         // Posicionamos el cursor en la coordenada (18, 4) de la pantalla

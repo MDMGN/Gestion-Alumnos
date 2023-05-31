@@ -1,3 +1,5 @@
+#include "header.h"
+
 void menuCurso(){
     system("cls");
     // Array de opciones del menú de cursos
@@ -192,6 +194,7 @@ void modificarCurso(){
 void editarCurso(CURSO *curso){
     int resp,success=1;
     char date[11];
+    // Pedir al usuario el dato que desea editar
     printf(ANSI_COLOR_BLUE "\n¿Qué dato deseas editar?: " ANSI_COLOR_RESET);
     scanf("%d",&resp);
     fflush(stdin);
@@ -228,14 +231,22 @@ void editarCurso(CURSO *curso){
             break;
     }
     fflush(stdin);
+    // Si se ha modificado algún dato mistramos el mensaje.
     if(success) printf(ANSI_COLOR_GREEN "\n\n Modificación exitosa!\n\n" ANSI_COLOR_RESET);
 }
 
-c
+void pedirCurso(int* curso,char* extra){
+    system("cls");
+    printf("\nNº de curso %s: ",extra);
+    scanf("%d",curso);
+    fflush(stdin);
+ }
 
 void mostrarCurso(CURSO curso){
     system("cls");
+    // Si el curso ha sido iniciado guardamos "Si" o en caso contrario "No"
     const char *iniciado= (curso.iniciado) ? "Sí" :  "No";
+    // Si el curso ha sido finalizado guardamos "Si" o en caso contrario "No"
     const char *finalizado= (curso.finalizado) ? "Sí" :  "No";
     // Mostrar los datos del curso
     printf("+------------------------------------------------------------------+\n");
@@ -252,10 +263,10 @@ void mostrarCurso(CURSO curso){
     system("cls");
     FILE *pf;
     CURSO curso;
-    int nCurso,lastNCurso;
+    int nCurso, lastNCurso;
     char resp;
 
-    pf=fopen(RUTA_C,"rb+");
+    pf=fopen(RUTA_C,"rb+"); // Abrir el archivo en modo lectura y escritura binaria
 
     if(pf==NULL){
         printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/curso.dat\n\n" ANSI_COLOR_RESET);
@@ -264,47 +275,53 @@ void mostrarCurso(CURSO curso){
         return;
     }
 
-    lastNCurso=totalRegistro(pf,sizeof(CURSO));
+    lastNCurso=totalRegistro(pf,sizeof(CURSO)); // Obtener el total de registros en el archivo
 
-    pedirCurso(&nCurso,"");
-    fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET);
-    fread(&curso,sizeof(CURSO),1,pf);
-    if(comprobar(nCurso,lastNCurso) && curso.nCurso!=0){
-        mostrarCurso(curso);
+    pedirCurso(&nCurso,""); // Solicitar el número de curso al usuario
+
+    fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET); // Desplazar el puntero de lectura/escritura al registro correspondiente
+    fread(&curso,sizeof(CURSO),1,pf); // Leer el registro del curso desde el archivo
+
+    if(comprobar(nCurso,lastNCurso) && curso.nCurso!=0){ // Comprobar si el número de curso es válido y si el curso existe
+        mostrarCurso(curso); // Mostrar los datos del curso
+
         printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RESET);
         resp=_getche();
+
         if(resp=='s'){
-            curso.nCurso=0;
-            fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET);
-            fwrite(&curso,sizeof(CURSO),1,pf);
-            if(eliminarMatriculaCurso(nCurso))
+            curso.nCurso=0; // Marcar el curso como eliminado asignando 0 al número de curso
+            fseek(pf,sizeof(CURSO)*(nCurso-1),SEEK_SET); // Desplazar el puntero de escritura al registro correspondiente
+            fwrite(&curso,sizeof(CURSO),1,pf); // Escribir el registro modificado en el archivo
+
+            if(eliminarMatriculaCurso(nCurso)) // Eliminar las matrículas asociadas al curso
                 printf(ANSI_COLOR_GREEN "\n\n Curso eliminado correctamente.\n\n" ANSI_COLOR_RESET);
         }
     }else{
         printf(ANSI_COLOR_RED "\n\n Nº de curso incorrecto.\n\n" ANSI_COLOR_RESET);
     }
-    fclose(pf);
+    fclose(pf); // Cerrar el archivo
     printf("\n\n");
     system("pause");
- }
-
- int eliminarMatriculaCurso(int nCurso){
-    FILE*pf_matricula;
+}
+//eliminar matricula del curso
+int eliminarMatriculaCurso(int nCurso){
+    FILE *pf_matricula;
     MATRICULA matricula;
-    pf_matricula=fopen(RUTA_M,"rb+");
-    fseek(pf_matricula,0,SEEK_SET);
+
+    pf_matricula=fopen(RUTA_M,"rb+"); // Abrir el archivo de matrículas en modo lectura y escritura binaria
     if(pf_matricula==NULL){
         printf(ANSI_COLOR_RED "\n\nError al intentar abrir el fichero data/matricula.dat\n\n" ANSI_COLOR_RESET);
         fclose(pf_matricula);
         return 0;
     }
-    while(fread(&matricula,sizeof(MATRICULA),1,pf_matricula)==1){
-        if(matricula.nMatricula==nCurso){
-            matricula.nMatricula=0;
-            fseek(pf_matricula,sizeof(MATRICULA)*(matricula.nMatricula-1),SEEK_SET);
-            fwrite(&matricula,sizeof(MATRICULA),1,pf_matricula);
+    fseek(pf_matricula,0,SEEK_SET); // Desplazar el puntero al inicio del archivo de matrículas
+    while(fread(&matricula,sizeof(MATRICULA),1,pf_matricula)==1){ // Leer cada registro de matrícula en el archivo
+        if(matricula.nMatricula==nCurso){ // Verificar si el número de curso de la matrícula coincide con el curso a eliminar
+            matricula.nMatricula=0; // Marcar la matrícula como eliminada asignando 0 al número de curso
+            fseek(pf_matricula,sizeof(MATRICULA)*(matricula.nMatricula-1),SEEK_SET); // Desplazar el puntero de escritura al registro correspondiente
+            fwrite(&matricula,sizeof(MATRICULA),1,pf_matricula); // Escribir el registro modificado en el archivo
         }
     }
-    fclose(pf_matricula);
+    fclose(pf_matricula); // Cerrar el archivo de matrículas
     return 1;
 }

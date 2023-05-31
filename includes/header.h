@@ -1,3 +1,4 @@
+#pragma once
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <conio.h>
@@ -86,7 +87,6 @@ void debugearInt(int);
 FECHA obtenerFechaActual();
 int validarFecha(FECHA);
 void obtenerDato(char*,int);
-//void recuadro(int xs,int xi,int ys,int yi);
 /* Funciones para el submenu de alumno */
 void menuAlumno();
 void altaAlumno();

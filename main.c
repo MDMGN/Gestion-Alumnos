@@ -1,9 +1,4 @@
 #include "./includes/header.h"
-#include "./includes/helpers.c"
-#include "./includes/alumno.c"
-#include "./includes/curso.c"
-#include "./includes/matriculaciones.c"
-#include "./includes/gestion_cursos.c"
 
 int main(){
     system("chcp 65001");  // Establece la página de códigos para admitir caracteres Unicode en la consola de Windows
