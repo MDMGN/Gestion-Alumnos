@@ -136,24 +136,36 @@ void consultaCurso(){
     system("pause");
 }
 
-
+//modificar curso
 void modificarCurso(){
-   system("cls");
+    system("cls");
     CURSO curso;FILE *pf;int last_ncurs, nCurs;
     char resp;
+
+    // Abrir el archivo de cursos en modo lectura y escritura
     pf=fopen(RUTA_C,"rb+");
-    //Comprobamos si el fichero existe
+
+    // Comprobar si el archivo existe
     if(pf==NULL){
         printf(ANSI_COLOR_RESET "\n\nError al intentar abrir el fichero data/curso.dat\n\n" ANSI_COLOR_RESET);
         fclose(pf);
         system("pause");
         return;
     }
+
+    // Obtener el número total de cursos en el archivo
     last_ncurs=totalRegistro(pf,sizeof(CURSO));
-    //Pedir nº de curso.
+
+    // Pedir el número de curso al usuario
     pedirCurso(&nCurs,"");
+
+    // Mover el puntero de lectura al registro correspondiente al número de curso ingresado
     fseek(pf, (nCurs-1) * sizeof(CURSO), SEEK_SET);
-	fread(&curso, sizeof(curso), 1, pf);
+
+    // Leer el curso del archivo
+    fread(&curso, sizeof(curso), 1, pf);
+
+    // Comprobar si el número de curso ingresado es válido y el curso existe
     if(comprobar(nCurs,last_ncurs) && curso.nCurso!=0){
         do{
             mostrarCurso(curso);
@@ -161,11 +173,16 @@ void modificarCurso(){
             printf(ANSI_COLOR_BLUE "\nDeseas seguir? (s/?): " ANSI_COLOR_RESET);
             resp=tolower(_getche());
         }while (resp=='s');
+
+        // Mover el puntero de escritura al registro correspondiente al número de curso ingresado
         fseek(pf,(curso.nCurso-1)*sizeof(CURSO),SEEK_SET);
+
+        // Escribir el curso modificado en el archivo
         fwrite(&curso,sizeof(CURSO),1,pf);
     }else{
         printf(ANSI_COLOR_RED "\n\nNº de curso incorrecto." ANSI_COLOR_RESET);
     }
+
     printf("\n\n");
     fclose(pf);
     system("pause");
