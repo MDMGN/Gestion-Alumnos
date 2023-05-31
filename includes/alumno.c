@@ -178,7 +178,7 @@ void altaAlumno(){
 
     // Pedimos confirmación para guardar el registro
     printf(ANSI_COLOR_BLUE "\n\n¿Desea guardar el registro? (s/?): " ANSI_COLOR_RESET);
-    resp=tolower(_getche());
+    resp=tolower(_getch());
 
     if(resp=='s'){
         // Guardamos la estructura ALUMNO con los datos introducidos en el archivo
@@ -238,7 +238,7 @@ void modificarAlumno(){
 
             // Preguntamos si desea seguir editando
             printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RESET);
-            resp=tolower(_getche());
+            resp=tolower(_getch());
         }while (resp=='s');
 
         // Posicionamos el puntero en el registro correspondiente al número de expediente del alumno
@@ -321,7 +321,7 @@ void pedirAlumno(int* alumno,char* extra){
 
         // Preguntamos si desea continuar con la eliminación
         printf(ANSI_COLOR_BLUE "\n\n¿Deseas seguir? (s/?): " ANSI_COLOR_RESET);
-        resp=_getche();
+        resp=_getch();
         if(resp=='s'){
             // Marcamos el número de expediente del alumno como 0 para indicar que está eliminado
             alumno.nExped=0;
